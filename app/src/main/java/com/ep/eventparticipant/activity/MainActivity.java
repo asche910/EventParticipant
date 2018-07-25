@@ -1,15 +1,22 @@
 package com.ep.eventparticipant.activity;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.ep.eventparticipant.MyApplication;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.adapter.FragAdapter;
 import com.ep.eventparticipant.fragment.FragmentHome;
@@ -19,7 +26,12 @@ import com.ep.eventparticipant.fragment.FragmentUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+import static com.ep.eventparticipant.fragment.FragmentHome.editTitle;
+import static com.ep.eventparticipant.fragment.FragmentHome.inputMethodManager;
+import static com.ep.eventparticipant.fragment.FragmentHome.isShouldHideInput;
+import static com.ep.eventparticipant.fragment.FragmentHome.viewList;
+
+public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     List<Fragment> fragmentList = new ArrayList<>();
@@ -31,10 +43,25 @@ public class MainActivity extends AppCompatActivity{
     BottomNavigationItem bottomNavigationItemSwap;
     BottomNavigationItem bottomNavigationItemUser;
 
+    //从资源文件获得对应Uri
+    public static final String ANDROID_RESOURCE = "android.resource://";
+    public static final String FOREWARD_SLASH = "/";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= 21) {
+//            View decorView = getWindow().getDecorView();
+//            decorView.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            |  View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.WHITE);
+
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
 
         viewPager = findViewById(R.id.viewpager_main);
         fragmentList.add(new FragmentHome());
@@ -68,10 +95,10 @@ public class MainActivity extends AppCompatActivity{
 
         bottomNavigationBar.initialise();
 
-        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener(){
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int i) {
-                switch (i){
+                switch (i) {
                     case 2:
                         viewPager.setCurrentItem(2);
                         break;
@@ -97,7 +124,26 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    class MyPagerChangeListener implements ViewPager.OnPageChangeListener{
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                editTitle.setFocusable(false);
+                editTitle.setFocusableInTouchMode(false);
+                editTitle.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static Uri resourceIdToUri(Context context, int resourceId) {
+        return Uri.parse(ANDROID_RESOURCE + context.getPackageName() + FOREWARD_SLASH + resourceId);
+    }
+
+    class MyPagerChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -106,7 +152,7 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onPageSelected(int position) {
-            switch (position){
+            switch (position) {
                 case 2:
                     bottomNavigationBar.selectTab(2);
                     break;
