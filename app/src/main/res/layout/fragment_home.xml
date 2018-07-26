@@ -1,11 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f5f2f2">
 
-    <TextView
+
+    <RelativeLayout
+        android:id="@+id/home_layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:elevation="4dp"
+        android:layout_margin="10dp"
+        android:background="#ffffff"
+        >
+
+
+        <TextView
+            android:id="@+id/home_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:gravity="center_vertical"
+            android:text="主页活动"
+            android:textColor="#99000000"
+            android:textSize="20sp"
+       />
+
+        <EditText
+            android:id="@+id/home_edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:gravity="center_vertical"
+            android:hint="输入活动ID或名字"
+            android:visibility="gone"
+            android:background="#ffffff"
+            />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_home_title_menu"/>
+
+
+        <ImageView
+            android:id="@+id/home_img_search"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="13dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_home_title_search"/>
+
+    </RelativeLayout>
+
+
+    <com.ep.eventparticipant.other.MyChangeScrollView
+        android:id="@+id/myscroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/home_layout_top">
+
+        <ScrollView
+            android:id="@+id/scrollView_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.ep.eventparticipant.other.ViewPagerClass
+                    android:id="@+id/viewpager_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/viewpager_home"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="热门活动"
+                        android:textSize="20sp"
+                        android:textColor="#99000000"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_home_popular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="精彩推荐"
+                        android:textSize="20sp"
+                        android:textColor="#99000000"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_home_suggest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="------已经到底啦------"
+                        android:background="#11454545" />
+
+
+                </LinearLayout>
+
+                <com.getbase.floatingactionbutton.FloatingActionsMenu
+                    android:id="@+id/float_scroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/viewpager_home"
+                    android:layout_gravity="end"
+                    app:fab_addButtonColorNormal="@android:color/holo_green_light"
+                    app:fab_addButtonColorPressed="@android:color/holo_green_dark"
+                    app:fab_expandDirection="down"
+                    app:fab_labelStyle="@style/menu_labels_style"
+                    app:fab_labelsPosition="left">
+
+                    <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fab_colorNormal="#03c6bc"
+                        app:fab_colorPressed="#1ca378"
+                        app:fab_icon="@drawable/ic_home_fab_join"
+                        app:fab_size="mini"
+                        app:fab_title="我参加的活动" />
+
+                    <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fab_colorNormal="@android:color/holo_purple"
+                        app:fab_colorPressed="#9f10ac"
+                        app:fab_icon="@drawable/ic_home_fab_create"
+                        app:fab_size="mini"
+                        app:fab_title="我发起的活动" />
+
+                    <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_scroll_new"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fab_colorNormal="@android:color/holo_orange_light"
+                        app:fab_colorPressed="@android:color/holo_orange_dark"
+                        app:fab_icon="@drawable/ic_home_fab_new"
+                        app:fab_size="mini"
+                        app:fab_title="发起活动" />
+                </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+    </com.ep.eventparticipant.other.MyChangeScrollView>
+
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/float_stable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fragment Home"
-        android:textSize="20sp"/>
-</LinearLayout>
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/home_layout_top"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        app:fab_addButtonColorNormal="@android:color/holo_green_light"
+        app:fab_addButtonColorPressed="@android:color/holo_green_dark"
+        app:fab_expandDirection="down"
+        app:fab_labelStyle="@style/menu_labels_style"
+        app:fab_labelsPosition="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="#03c6bc"
+            app:fab_colorPressed="#1ca378"
+            app:fab_icon="@drawable/ic_home_fab_join"
+            app:fab_size="mini"
+            app:fab_title="我参加的活动" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@android:color/holo_purple"
+            app:fab_colorPressed="#9f10ac"
+            app:fab_icon="@drawable/ic_home_fab_create"
+            app:fab_size="mini"
+            app:fab_title="我发起的活动" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_stable_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@android:color/holo_orange_light"
+            app:fab_colorPressed="@android:color/holo_orange_dark"
+            app:fab_icon="@drawable/ic_home_fab_new"
+            app:fab_size="mini"
+            app:fab_title="发起活动" />
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+</RelativeLayout>
