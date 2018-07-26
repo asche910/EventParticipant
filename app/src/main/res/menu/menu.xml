@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/albums"
+        android:title="从相册选择"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:showAsAction="never"
+        android:id="@+id/album"/>
+    <item
+        android:id="@+id/camera"
+        android:title="拍照"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:showAsAction="never"
+        android:icon="@drawable/camera"/>
+</menu>

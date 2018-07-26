@@ -1,4 +1,4 @@
-package com.ep.eventparticipant.fragment;
+package com.ep.eventparticipant;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,22 +8,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.ep.eventparticipant.OkHttp;
-import com.ep.eventparticipant.Personal_information;
-import com.ep.eventparticipant.R;
-import com.ep.eventparticipant.portrait;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,54 +26,74 @@ import java.util.Map;
 
 import okhttp3.Request;
 
-public class FragmentUser extends Fragment {
-    private de.hdodenhof.circleimageview.CircleImageView touxiang;
+public class portrait extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageView iv_img;
+    private Button bt_camera;
+    private Button bt_xiangce;
+    private Button fanhui;
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
+    /* 头像名称 */
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
-    private TextView Name;
-    private TextView Signature;
-    private TextView Phone;
-    private File tempFile;
-    private Uri imageUri;
+    private  File tempFile;
+
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        View view = inflater.from(container.getContext()).inflate(R.layout.fragment_user, container, false);
-        touxiang = (de.hdodenhof.circleimageview.CircleImageView)view.findViewById(R.id.touxiang);
-        Name = (TextView)view.findViewById(R.id.Name);
-        Name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Personal_information.class);
-                startActivity(intent);
-                getBitmapFromSharedPreferences();
-            }
-        });
-        Signature = (TextView)view.findViewById(R.id.Signature);
-        Signature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Personal_information.class);
-                startActivity(intent);
-                getBitmapFromSharedPreferences();
-            }
-        });
-        Phone = (TextView)view.findViewById(R.id.Phone);
-        Phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Personal_information.class);
-                startActivity(intent);
-                getBitmapFromSharedPreferences();
-            }
-        });
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_portrait);
         initView();
-        return  view;
     }
 
+    private void initView() {
+        iv_img = (ImageView) findViewById(R.id.iv_img);
+        bt_camera = (Button) findViewById(R.id.bt_camera);
+        bt_xiangce = (Button) findViewById(R.id.bt_xiangce);
+        fanhui = (Button)findViewById(R.id.fanhui);
+//从SharedPreferences获取图片
+        getBitmapFromSharedPreferences();
+        bt_camera.setOnClickListener(this);
+        bt_xiangce.setOnClickListener(this);
+        fanhui.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_camera:
+                // 激活相机
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                // 判断存储卡是否可以用，可用进行存储
+                if (hasSdcard()) {
+                    tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
+                    // 从文件中创建uri
+                    Uri uri = Uri.fromFile(tempFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                }
+                // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CAREMA
+                startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
+                break;
+            case R.id.bt_xiangce:
+                // 激活系统图库，选择一张图片
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setType("image/*");
+                // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+                startActivityForResult(intent1, PHOTO_REQUEST_GALLERY);
+                break;
+            case R.id.fanhui:
+                finish();
+                break;
+                default:
+        }
+    }
+
+
+    /*
+     * 判断sdcard是否被挂载
+     */
     private boolean hasSdcard() {
-        //判断ＳＤ卡是否是安装好的　　　media_mounted
+        //判断ＳＤ卡手否是安装好的　　　media_mounted
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return true;
         } else {
@@ -89,39 +101,49 @@ public class FragmentUser extends Fragment {
         }
     }
 
-    private void initView() {
-        touxiang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Personal_information.class);
-                startActivity(intent);
-                getBitmapFromSharedPreferences();
-            }
-        });
+    /*
+     * 剪切图片
+     */
+    private void crop(Uri uri) {
+        // 裁剪图片意图
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        // 裁剪框的比例，1：1
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // 裁剪后输出图片的尺寸大小
+        intent.putExtra("outputX", 250);
+        intent.putExtra("outputY", 250);
+        intent.putExtra("outputFormat", "JPEG");// 图片格式
+        intent.putExtra("noFaceDetection", true);// 取消人脸识别
+        intent.putExtra("return-data", true);
+        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CUT
+        startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        touxiang.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), Personal_information.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PHOTO_REQUEST_GALLERY) {
             // 从相册返回的数据
             if (data != null) {
                 // 得到图片的全路径
                 Uri uri = data.getData();
+                crop(uri);
             }
         } else if (requestCode == PHOTO_REQUEST_CAREMA) {
             // 从相机返回的数据
-
+            if (hasSdcard()) {
+                crop(Uri.fromFile(tempFile));
+            } else {
+                Toast.makeText(portrait.this, "未找到存储卡，无法存储照片！", Toast.LENGTH_SHORT).show();
+            }
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             // 从剪切图片返回的数据
             if (data != null) {
@@ -129,7 +151,7 @@ public class FragmentUser extends Fragment {
                 /**
                  * 获得图片
                  */
-                touxiang.setImageBitmap(bitmap);
+                iv_img.setImageBitmap(bitmap);
                 //保存到SharedPreferences
                 saveBitmapToSharedPreferences(bitmap);
             }
@@ -153,7 +175,7 @@ public class FragmentUser extends Fragment {
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
         //第三步:将String保持至SharedPreferences
-        SharedPreferences sharedPreferences =  getActivity().getSharedPreferences("testSP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("testSP", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("image", imageString);
         editor.commit();
@@ -184,19 +206,23 @@ public class FragmentUser extends Fragment {
             }
         });
     }
+
+    //从SharedPreferences获取图片
     private void getBitmapFromSharedPreferences(){
-        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("testSP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences=getSharedPreferences("testSP", Context.MODE_PRIVATE);
         //第一步:取出字符串形式的Bitmap
         String imageString=sharedPreferences.getString("image", "");
         //第二步:利用Base64将字符串转换为ByteArrayInputStream
-        byte[] byteArray= Base64.decode(imageString, Base64.DEFAULT);
+        byte[] byteArray=Base64.decode(imageString, Base64.DEFAULT);
         if(byteArray.length==0){
-            touxiang.setImageResource(R.drawable.touxiang);
+            iv_img.setImageResource(R.drawable.touxiang);
         }else{
             ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(byteArray);
             //第三步:利用ByteArrayInputStream生成Bitmap
             Bitmap bitmap= BitmapFactory.decodeStream(byteArrayInputStream);
-            touxiang.setImageBitmap(bitmap);
+            iv_img.setImageBitmap(bitmap);
         }
+
     }
+
 }
