@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        >
+        <ImageView
+            android:id="@+id/item_img_sug"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/bg_home_3"
+            android:scaleType="center"/>
+        <TextView
+            android:id="@+id/item_name_sug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="2018 ChinaJoy 综合商务洽谈区(B To B、WMGC))"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:background="#44454545"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_time_sug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018.07/25"
+                android:textColor="#454545" />
+
+            <TextView
+                android:id="@+id/item_where_sug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上海浦东"
+                android:textColor="#445555" />
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#5513b2ec"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="了解详情"
+            android:textColor="#f77e7e" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
