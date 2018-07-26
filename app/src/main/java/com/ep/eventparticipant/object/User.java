@@ -1,4 +1,4 @@
-package com.ep.eventparticipant;
+package com.ep.eventparticipant.object;
 
 import android.widget.ImageView;
 

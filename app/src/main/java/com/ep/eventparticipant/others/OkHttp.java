@@ -1,4 +1,4 @@
-package com.ep.eventparticipant;
+package com.ep.eventparticipant.others;
 
 import android.os.Handler;
 import android.os.Looper;

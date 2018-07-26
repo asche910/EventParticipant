@@ -3,6 +3,8 @@ package com.ep.eventparticipant.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.ep.eventparticipant.R;
+
 public class FindThing extends AppCompatActivity {
 
     @Override
