@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MyEditTextTheme" parent="Base.V7.Widget.AppCompat.EditText">
+        <item name="android:baseline">@dimen/fixed_height</item>
+    </style>
 </resources>
