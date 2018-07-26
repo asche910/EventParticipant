@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.ep.eventparticipant.MyApplication;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.activity.EventActivity;
+import com.ep.eventparticipant.activity.EventNewActivity;
 import com.ep.eventparticipant.adapter.HomePopularAdapter;
 import com.ep.eventparticipant.adapter.HomeSuggestAdapter;
 import com.ep.eventparticipant.object.EventBean;
@@ -42,7 +43,7 @@ import java.util.Random;
 import static android.support.constraint.Constraints.TAG;
 import static com.ep.eventparticipant.activity.MainActivity.resourceIdToUri;
 
-public class FragmentHome extends Fragment implements View.OnClickListener{
+public class FragmentHome extends Fragment implements View.OnClickListener {
     ViewPagerClass viewPagerClass;
     public static List<View> viewList = new ArrayList<>();
 
@@ -79,7 +80,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         if (viewList.isEmpty()) {
             init();
         }
-        return  inflater.from(container.getContext()).inflate(R.layout.fragment_home, container, false);
+        return inflater.from(container.getContext()).inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -130,10 +131,10 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         editTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     Toast.makeText(getContext(), "获得了焦点！", Toast.LENGTH_SHORT).show();
                     isEditFocus = true;
-                }else{
+                } else {
                     Toast.makeText(getContext(), "失去了焦点！", Toast.LENGTH_SHORT).show();
                     isEditFocus = false;
                     textTitle.setVisibility(View.VISIBLE);
@@ -145,7 +146,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
     }
 
 
-    private  void init(){
+    private void init() {
 
         ImageView img_1 = new ImageView(getContext());
         img_1.setBackgroundResource(R.drawable.bg_home_1);
@@ -175,20 +176,32 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
         EventBean eventBean_2 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
                 "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_3).toString(),
                 666, 99, "Lihua, Asche_, Job", false);
+
+        EventBean eventBean_3 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
+                "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_4).toString(),
+                666, 99, "Lihua, Asche_, Job", false);
+
+        EventBean eventBean_4 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
+                "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_5).toString(),
+                666, 99, "Lihua, Asche_, Job", false);
+
+
         eventBeanList.add(eventBean_1);
         eventBeanList.add(eventBean_2);
+        eventBeanList.add(eventBean_3);
+        eventBeanList.add(eventBean_4);
 
-        inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.fab_stable_new:
             case R.id.fab_scroll_new:
-                Intent intent = new Intent(getContext(), EventActivity.class);
+                Intent intent = new Intent(getContext(), EventNewActivity.class);
                 startActivity(intent);
                 break;
             case R.id.home_img_search:
@@ -200,10 +213,10 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
                     editTitle.setFocusableInTouchMode(true);
                     editTitle.requestFocus();
                     inputMethodManager.showSoftInput(editTitle, 0);
-                }else{
-                    if(editTitle.getText().toString().equals("")){
+                } else {
+                    if (editTitle.getText().toString().equals("")) {
                         Toast.makeText(MyApplication.getContext(), "请输入要搜索的内容！", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(getContext(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -213,7 +226,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener{
 
     public static boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] leftTop = { 0, 0 };
+            int[] leftTop = {0, 0};
             v.getLocationInWindow(leftTop);
             int left = leftTop[0], top = leftTop[1], bottom = top + v.getHeight(), right = left
                     + v.getWidth();

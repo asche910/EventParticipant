@@ -65,7 +65,7 @@ public class MyChangeScrollView extends ScrollView {
                                   boolean clampedY) {
         super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
 
-        if (scrollY >= 720) {
+        if (scrollY >= dip2px(getContext(), 180f)) {
             fAM_stable.setVisibility(View.VISIBLE);
             fAM_scroll.setVisibility(View.GONE);
             fAM_scroll.collapse();
@@ -95,5 +95,10 @@ public class MyChangeScrollView extends ScrollView {
         if (mListener != null) {
             mListener.onScroll(null, scrollX, scrollY, scrollY);
         }
+    }
+
+    public static int dip2px(Context context, float dipValue){
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(dipValue * scale + 0.5f);
     }
 }

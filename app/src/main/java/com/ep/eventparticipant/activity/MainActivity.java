@@ -23,6 +23,8 @@ import com.ep.eventparticipant.fragment.FragmentHome;
 import com.ep.eventparticipant.fragment.FragmentSwap;
 import com.ep.eventparticipant.fragment.FragmentUser;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
