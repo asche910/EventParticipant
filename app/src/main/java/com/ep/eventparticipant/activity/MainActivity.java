@@ -24,18 +24,14 @@ public class MainActivity extends AppCompatActivity{
     ViewPager viewPager;
     List<Fragment> fragmentList = new ArrayList<>();
     FragAdapter fragAdapter;
-
-
     BottomNavigationBar bottomNavigationBar;
     BottomNavigationItem bottomNavigationItemHome;
     BottomNavigationItem bottomNavigationItemSwap;
     BottomNavigationItem bottomNavigationItemUser;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         viewPager = findViewById(R.id.viewpager_main);
         fragmentList.add(new FragmentHome());
         fragmentList.add(new FragmentSwap());
@@ -43,15 +39,12 @@ public class MainActivity extends AppCompatActivity{
         fragAdapter = new FragAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(fragAdapter);
         viewPager.setOnPageChangeListener(new MyPagerChangeListener());
-
-
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE)
                 .setMode(BottomNavigationBar.MODE_SHIFTING);
 //        此处会修改字体颜色
 //                .setBarBackgroundColor("#1ccbae");
-
         bottomNavigationItemHome = new BottomNavigationItem(R.drawable.ic_nav_home_press, "Home")
                 .setActiveColor(Resources.getSystem().getColor(android.R.color.holo_blue_light))
                 .setInactiveIconResource(R.drawable.ic_nav_home);
@@ -83,27 +76,18 @@ public class MainActivity extends AppCompatActivity{
                         break;
                 }
             }
-
             @Override
             public void onTabUnselected(int i) {
-
             }
-
             @Override
             public void onTabReselected(int i) {
-
             }
         });
-
     }
-
     class MyPagerChangeListener implements ViewPager.OnPageChangeListener{
-
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
         }
-
         @Override
         public void onPageSelected(int position) {
             switch (position){
