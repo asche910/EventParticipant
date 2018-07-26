@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/灰色"
+    android:orientation="vertical"
+    tools:context=".Personal_information">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@drawable/btn_skyblue"
+        android:layout_width="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_height="45dp">
+    </android.support.v7.widget.Toolbar>
+    <Button
+        android:id="@+id/return_"
+        android:background="@drawable/ic_chevron_left_white_24dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp" />
+     <TextView
+         android:text="个人信息"
+         android:layout_marginLeft="55dp"
+         android:textSize="20sp"
+         android:textColor="#fff"
+         android:layout_centerVertical="true"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:textSize="18sp"
+            android:text="头像"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/touxiang"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/touxiang"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/灰色"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:textSize="18sp"
+            android:text="昵称"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/Name"
+            android:text="xxx"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:textSize="18sp"
+            android:textColor="@color/深灰色"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/灰色"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:textSize="18sp"
+            android:text="手机号"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/Phone"
+            android:textSize="18sp"
+            android:textColor="@color/深灰色"
+            android:text="151515151515"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</LinearLayout>
