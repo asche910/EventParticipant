@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.exchangeout">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/exchangeout_toolbar"
+                android:background="@drawable/btn_skyblue"
+                android:layout_width="match_parent"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:layout_height="45dp">
+            </android.support.v7.widget.Toolbar>
+            <Button
+                android:id="@+id/return_1"
+                android:background="@drawable/ic_chevron_left_white_24dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp" />`
+            <TextView
+                android:text="换入信息"
+                android:layout_marginLeft="55dp"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/exchangein_recyclerview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+</android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

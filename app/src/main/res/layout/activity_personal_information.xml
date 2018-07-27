@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/灰色"
     android:orientation="vertical"
-    tools:context=".Personal_information">
+    tools:context=".activity.Personal_information">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp">
