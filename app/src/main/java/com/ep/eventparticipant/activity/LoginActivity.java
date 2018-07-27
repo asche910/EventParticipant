@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ep.eventparticipant.others.MD5Utils;
+import com.ep.eventparticipant.other.MD5Utils;
 import com.ep.eventparticipant.R;
 
 public class LoginActivity extends AppCompatActivity {

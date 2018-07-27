@@ -40,6 +40,10 @@
         <activity android:name=".activity.EventResultActivity"/>
 
         <activity android:name=".activity.RegisterActivity"/>
+        <activity android:name=".activity.FindThing" />
+        <activity android:name=".activity.PublishActivity" />
+        <activity android:name=".activity.OtherActivity" />
+        <activity android:name=".activity.ExchangeInformation"/>
     </application>
 
 </manifest>

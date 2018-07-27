@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.ep.eventparticipant.others.OkHttp;
+import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.R;
 
 import java.io.ByteArrayInputStream;
