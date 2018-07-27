@@ -28,6 +28,7 @@ import com.ep.eventparticipant.MyApplication;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.activity.EventActivity;
 import com.ep.eventparticipant.activity.EventNewActivity;
+import com.ep.eventparticipant.activity.EventResultActivity;
 import com.ep.eventparticipant.adapter.HomePopularAdapter;
 import com.ep.eventparticipant.adapter.HomeSuggestAdapter;
 import com.ep.eventparticipant.object.EventBean;
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import okhttp3.OkHttpClient;
+
 import static android.support.constraint.Constraints.TAG;
 import static com.ep.eventparticipant.activity.MainActivity.resourceIdToUri;
 
@@ -51,7 +54,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
 
     public static FloatingActionsMenu fAM_stable;
     public static FloatingActionsMenu fAM_scroll;
-    FloatingActionButton fabScrollNew, fabStableNew;
+    FloatingActionButton fabScrollNew, fabStableNew, fabScrollCreated, fabStableCreated, fabScrollJoin, fabStableJoin;
     ImageView imgSearch;
     public static EditText editTitle;
     TextView textTitle;
@@ -71,6 +74,16 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
 
 
     public static List<EventBean> eventBeanList = new ArrayList<>();
+    public static List<EventBean> myCreatedList = new ArrayList<>();
+    public static List<EventBean> myJoinedList = new ArrayList<>();
+    public static List<EventBean> mySearchList = new ArrayList<>();
+
+    //分别对应上述四个list
+    public static final int EVENT_LIST = 0;
+    public static final int CREATED_LIST = 1;
+    public static final int JOINED_LIST = 2;
+    public static final int SEARCH_LIST = 3;
+
 
 
     @Nullable
@@ -94,6 +107,10 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         fAM_scroll = getActivity().findViewById(R.id.float_scroll);
         fabScrollNew = getActivity().findViewById(R.id.fab_scroll_new);
         fabStableNew = getActivity().findViewById(R.id.fab_stable_new);
+        fabScrollCreated = getActivity().findViewById(R.id.fab_scroll_created);
+        fabStableCreated = getActivity().findViewById(R.id.fab_stable_created);
+        fabScrollJoin = getActivity().findViewById(R.id.fab_scroll_join);
+        fabStableJoin = getActivity().findViewById(R.id.fab_stable_join);
 
         imgSearch = getActivity().findViewById(R.id.home_img_search);
         textTitle = getActivity().findViewById(R.id.home_text_title);
@@ -117,11 +134,26 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
 
         fabScrollNew.setOnClickListener(this);
         fabStableNew.setOnClickListener(this);
+        fabScrollCreated.setOnClickListener(this);
+        fabStableCreated.setOnClickListener(this);
+        fabScrollJoin.setOnClickListener(this);
+        fabStableJoin.setOnClickListener(this);
 
         homePopularAdapter.setOnClickListener(new HomePopularAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getContext(), EventActivity.class);
+                intent.putExtra("ListType", EVENT_LIST);
+                intent.putExtra("Position", position);
+                startActivity(intent);
+            }
+        });
+        homeSuggestAdapter.setOnClickListener(new HomeSuggestAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(getContext(), EventActivity.class);
+                intent.putExtra("ListType", EVENT_LIST);
+                intent.putExtra("Position", position);
                 startActivity(intent);
             }
         });
@@ -170,26 +202,42 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         viewList.add(img_5);
 
         EventBean eventBean_1 = new EventBean(new Random(System.currentTimeMillis()).nextInt(), "BIBF国际绘本展门票及会员卡",
-                "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(),
-                666, 99, "Lihua, Asche_, Job", false);
+                "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
+                resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(),
+                666, resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(), "AFIH组委会_1", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
+                99, "Lihua, Asche_, Job", false);
 
         EventBean eventBean_2 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
-                "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_3).toString(),
-                666, 99, "Lihua, Asche_, Job", false);
+                "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
+                resourceIdToUri(getContext(), R.drawable.bg_home_3).toString(),
+                666, resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(), "AFIH组委会_2", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
+                99, "Lihua, Asche_, Job", false);
 
         EventBean eventBean_3 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
-                "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_4).toString(),
-                666, 99, "Lihua, Asche_, Job", false);
+                "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
+                resourceIdToUri(getContext(), R.drawable.bg_home_4).toString(),
+                666,resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(), "AFIH组委会_3", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
+                99, "Lihua, Asche_, Job", false);
 
         EventBean eventBean_4 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
-                "2018.7.25", "2018.07.30", "上海浦东", "note......", resourceIdToUri(getContext(), R.drawable.bg_home_5).toString(),
-                666, 99, "Lihua, Asche_, Job", false);
+                "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
+                resourceIdToUri(getContext(), R.drawable.bg_home_5).toString(),
+                666,resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(),  "AFIH组委会_4", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
+                99, "Lihua, Asche_, Job", false);
 
 
         eventBeanList.add(eventBean_1);
         eventBeanList.add(eventBean_2);
         eventBeanList.add(eventBean_3);
         eventBeanList.add(eventBean_4);
+
+        myCreatedList.addAll(eventBeanList);
+        myCreatedList.remove(3);
+        myCreatedList.remove(2);
+
+        myJoinedList.addAll(eventBeanList);
+        myJoinedList.remove(3);
+
 
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -199,6 +247,18 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.fab_stable_join:
+            case R.id.fab_scroll_join:
+                Intent intent_ = new Intent(getContext(), EventResultActivity.class);
+                intent_.putExtra("ListType", JOINED_LIST);
+                startActivity(intent_);
+                break;
+            case R.id.fab_stable_created:
+            case R.id.fab_scroll_created:
+                Intent intent_1 = new Intent(getContext(), EventResultActivity.class);
+                intent_1.putExtra("ListType", CREATED_LIST);
+                startActivity(intent_1);
+                break;
             case R.id.fab_stable_new:
             case R.id.fab_scroll_new:
                 Intent intent = new Intent(getContext(), EventNewActivity.class);

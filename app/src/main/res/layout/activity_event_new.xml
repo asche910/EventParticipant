@@ -10,14 +10,16 @@
         android:layout_height="50dp"
         android:background="#ffffff">
 
-        <ImageView
+        <Button
+            android:id="@+id/event_new_btn_back"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_event_back"/>
+            android:background="@drawable/ic_event_back"/>
 
         <TextView
+            android:id="@+id/event_new_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -29,137 +31,211 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp">
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/ic_add_name"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="活动名称："
+            android:textColor="#000000" />
         <EditText
-            android:id="@+id/edit_add_name"
+            android:id="@+id/event_new_edit_name"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:hint="赶快输入目标名称名称吧！"
-            android:textColorHint="#2e54ec"/>
+            android:background="@null"/>
 
     </LinearLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="#11454545"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="40dp">
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_add_name"/>
+            android:background="@drawable/ic_add_time"/>
 
-        <EditText
-            android:id="@+id/edit_add_days"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="开始时间:"
+            android:textColor="#444444" />
+        <TextView
+            android:id="@+id/event_new_text_start"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:hint="开始时间"
-            android:textColorHint="#2e54ec"
-            android:inputType="number"/>
+            android:gravity="center_vertical"
+            android:textColor="#147abe" />
         <Button
+            android:id="@+id/event_new_btn_start"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginRight="15dp"
-            android:text="选择"
-            android:background="@android:color/holo_green_light"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_add_name"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:hint="结束时间"
-            android:textColorHint="#2e54ec"
-            android:inputType="number"/>
-        <Button
-            android:id="@+id/btn_add_sug"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginRight="15dp"
-            android:text="选择"
+            android:text="选 择"
+            android:textColor="#ffffff"
             android:background="@android:color/holo_green_light"/>
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#11454545"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="结束时间:"
+            android:textColor="#444444" />
+        <TextView
+            android:id="@+id/event_new_text_end"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textColor="#147abe" />
+        <Button
+            android:id="@+id/event_new_btn_end"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:text="选择"
+            android:textColor="#ffffff"
+            android:background="@android:color/holo_green_light"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#11454545"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_add_name"/>
+            android:background="@drawable/ic_add_where"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="活动地点："
+            android:textColor="#000000" />
 
         <EditText
+            android:id="@+id/event_new_edit_where"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:hint="活动地点"
-            android:textColorHint="#2e54ec"/>
+            android:hint="这里输入地点"
+            android:background="@null"/>
 
     </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#11454545"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/img_add_note"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_add_name" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/ic_add_note" />
 
         <EditText
-            android:id="@+id/edit_add_note"
-            android:layout_width="210dp"
+            android:id="@+id/event_new_edit_note"
+            android:layout_width="190dp"
             android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/img_add_note"
             android:background="@drawable/bg_edit_add_note"
-            android:hint="输备注信息！"
+            android:hint="请输入活动详细信息！"
             android:paddingLeft="10dp"
-            android:textColorHint="#0aa31e" />
+            android:textColorHint="#bb444444" />
 
         <Button
-            android:id="@+id/btn_add_note"
+            android:id="@+id/event_new_btn_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentEnd="true"
             android:background="#110d76bc"
             android:text="选择图片" />
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#11454545"/>
+
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/event_new_btn_save"
         android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:text="完   成"
@@ -167,8 +243,6 @@
         android:textSize="20sp"
         android:background="@drawable/bg_btn_add"
         />
-
-
 
 
 </LinearLayout>

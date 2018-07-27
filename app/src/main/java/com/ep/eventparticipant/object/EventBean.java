@@ -12,13 +12,16 @@ public class EventBean extends DataSupport {
     private String note;
     private String imgUri;
     private int organizerId;
+    private String organizerHeader;
+    private String organizerName;
+    private String organizerTel;
+    private String organizerNote;
     private int personCount;
     private String personNames;
     private boolean isJoin;
 
-//  上7， 下4
-    public EventBean(int id, String name, String startTime, String endTime, String where, String note, String imgUri,
-                     int organizerId, int personCount, String personNames, boolean isJoin) {
+    public EventBean(int id, String name, String startTime, String endTime, String where, String note, String imgUri, int organizerId,
+                     String organizerHeader, String organizerName, String organizerTel, String organizerNote, int personCount, String personNames, boolean isJoin) {
         this.id = id;
         this.name = name;
         this.startTime = startTime;
@@ -27,6 +30,10 @@ public class EventBean extends DataSupport {
         this.note = note;
         this.imgUri = imgUri;
         this.organizerId = organizerId;
+        this.organizerHeader = organizerHeader;
+        this.organizerName = organizerName;
+        this.organizerTel = organizerTel;
+        this.organizerNote = organizerNote;
         this.personCount = personCount;
         this.personNames = personNames;
         this.isJoin = isJoin;
@@ -121,5 +128,37 @@ public class EventBean extends DataSupport {
 
     public void setJoin(boolean join) {
         isJoin = join;
+    }
+
+    public String getOrganizerName() {
+        return organizerName;
+    }
+
+    public void setOrganizerName(String organizerName) {
+        this.organizerName = organizerName;
+    }
+
+    public String getOrganizerTel() {
+        return organizerTel;
+    }
+
+    public void setOrganizerTel(String organizerTel) {
+        this.organizerTel = organizerTel;
+    }
+
+    public String getOrganizerNote() {
+        return organizerNote;
+    }
+
+    public String getOrganizerHeader() {
+        return organizerHeader;
+    }
+
+    public void setOrganizerHeader(String organizerHeader) {
+        this.organizerHeader = organizerHeader;
+    }
+
+    public void setOrganizerNote(String organizerNote) {
+        this.organizerNote = organizerNote;
     }
 }

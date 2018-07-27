@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:background="#f5f2f2">
 
@@ -83,7 +85,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp" />
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +146,7 @@
                     app:fab_labelsPosition="left">
 
                     <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_scroll_join"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:fab_colorNormal="#03c6bc"
@@ -154,6 +156,7 @@
                         app:fab_title="我参加的活动" />
 
                     <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_scroll_created"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:fab_colorNormal="@android:color/holo_purple"
@@ -173,10 +176,7 @@
                         app:fab_title="发起活动" />
                 </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-
-
             </RelativeLayout>
-
         </ScrollView>
     </com.ep.eventparticipant.other.MyChangeScrollView>
 
@@ -196,6 +196,7 @@
         app:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_stable_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="#03c6bc"
@@ -205,6 +206,7 @@
             app:fab_title="我参加的活动" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_stable_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@android:color/holo_purple"

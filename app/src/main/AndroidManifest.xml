@@ -38,6 +38,7 @@
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.EventActivity"/>
         <activity android:name=".activity.EventNewActivity"/>
+        <activity android:name=".activity.EventResultActivity"/>
     </application>
 
 </manifest>
