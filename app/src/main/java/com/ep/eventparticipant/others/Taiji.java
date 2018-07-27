@@ -1,10 +1,9 @@
-package com.example.tuao.myview.Paint_2;
+package com.ep.eventparticipant.others;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,7 +18,7 @@ public class Taiji extends View {
         this(context,attr,0);
 
     }
-    public Taiji(Context context,AttributeSet attr,int defStyleAttr){
+    public Taiji(Context context, AttributeSet attr, int defStyleAttr){
         super(context,attr,defStyleAttr);
         initPaint();
     }

@@ -1,12 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fragment Swap"
-        android:textSize="20sp"/>
 
-</LinearLayout>
+
+
+<ImageView
+    android:src="@drawable/ic_nav_user"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_width="25dp"
+    android:layout_height="25dp" />
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/alertDialog_et"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:drawableLeft="@drawable/ic_search_black_24dp_1"
+                    android:background="@drawable/bg_edittext"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginRight="30dp"
+                    android:textSize="15sp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:layout_width="280dp"
+                    android:layout_height="25dp"
+                    android:hint="请输入你想要交换的物品"/>
+            <ImageView
+                android:src="@drawable/tu_6"
+                android:layout_marginTop="50dp"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="200dp"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:text="我要发表"
+                    android:gravity="left"
+                    android:textSize="15dp"
+                    android:background="#ffffff"
+                    android:textColor="#91ea2b"
+                    android:paddingTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <RelativeLayout
+                android:layout_marginTop="240dp"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/jiaohuanxinxi"
+                    android:layout_marginLeft="40dp"
+                    android:src="@drawable/ic_swap_horiz_black_24dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:text="我的交换信息"
+                    android:gravity="center"
+                    android:textColor="#91ea2b"
+                    android:layout_below="@id/jiaohuanxinxi"
+                    android:layout_marginLeft="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp" />
+                <ImageView
+                    android:id="@+id/fabiao"
+                    android:layout_marginLeft="160dp"
+                    android:src="@drawable/ic_send_black_24dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:text="我要发布"
+                    android:layout_below="@id/fabiao"
+                    android:layout_marginLeft="160dp"
+                    android:textColor="#bd5353"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp" />
+                <ImageView
+                    android:id="@+id/yijiaohuan"
+                    android:src="@drawable/ic_done_all_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:text="已交换"
+                    android:textColor="#3E5D9A"
+                    android:layout_below="@id/yijiaohuan"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp" />
+
+            </RelativeLayout>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_marginTop="320dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:text="我要交换"
+                    android:textColor="#fbd17d"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

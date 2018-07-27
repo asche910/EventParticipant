@@ -1,9 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".activity.OtherActivity">
+<ImageView
+    android:scaleType="fitXY"
+    android:id="@+id/image_view_2"
+    android:transitionName="sharedView"
+    android:src="@drawable/tu_6"
+    android:layout_width="match_parent"
+    android:layout_height="200dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+    <TextView
+        android:text="用户ID:"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_width="100dp"
+        android:layout_height="45dp" />
+        <TextView
+            android:id="@+id/yonghuID"
+            android:layout_marginLeft="120dp"
+            android:text="123456"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#1dc1c6"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp" />
+        <ImageView
+            android:background="#a6d1c4c4"
+            android:layout_below="@id/yonghuID"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+        <TextView
+            android:text="交易地点:"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_width="110dp"
+            android:layout_height="45dp" />
+        <TextView
+            android:id="@+id/jiaoyididian"
+            android:layout_marginLeft="120dp"
+            android:text="领航工作室"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#1dc1c6"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp" />
+        <ImageView
+            android:background="#a6d1c4c4"
+            android:layout_below="@id/jiaoyididian"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+    </RelativeLayout>
+    <TextView
+        android:text="物品描述:"
+        android:textSize="20sp"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="15sp"
+        android:text="非常好用"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="#1dc1c6"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    <ImageView
+        android:background="#a6d1c4c4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:text="联系方式:"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp" />
+        <TextView
+            android:text="10086"
+            android:textColor="#1dc1c6"
+            android:layout_marginLeft="100dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+</RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
