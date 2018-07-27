@@ -1,4 +1,4 @@
-package com.ep.eventparticipant.been;
+package com.ep.eventparticipant.object;
 
 import android.net.UrlQuerySanitizer;
 

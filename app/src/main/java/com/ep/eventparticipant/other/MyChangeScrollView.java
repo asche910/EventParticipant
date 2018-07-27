@@ -66,6 +66,7 @@ public class MyChangeScrollView extends ScrollView {
             fAM_scroll.setVisibility(View.VISIBLE);
             fAM_stable.collapse();
         }
+/*
 
      if (scrollY >= 450) {
             mTitleView.setBackgroundColor(Color.WHITE);
@@ -83,6 +84,7 @@ public class MyChangeScrollView extends ScrollView {
                 mTitleView.setBackgroundColor(color);
             }
         }
+*/
 
         if (mListener != null) {
             mListener.onScroll(null, scrollX, scrollY, scrollY);

@@ -4,9 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +30,15 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private String userName,psw,spPsw;
     private EditText et_user_name,et_psw;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        getWindow().setStatusBarColor(Color.WHITE);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
@@ -75,6 +83,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        //---------------------------> Login ------->
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +159,6 @@ public class LoginActivity extends AppCompatActivity {
                     Manifest.permission.CAMERA
             }, 0);
 
-
         }
     }
 
@@ -175,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(this, "授权成功！", Toast.LENGTH_SHORT).show();
                     }
                 }
+                break;
         }
 
     }

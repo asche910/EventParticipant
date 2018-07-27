@@ -52,6 +52,10 @@ dependencies {
     implementation 'com.carson_ho:SearchLayout:1.0.1'
     implementation 'org.litepal.android:core:1.6.1'
     implementation(name: 'bottom-navigation-bar-2.0.4', ext: 'aar')
+
+
+    implementation 'com.facebook.shimmer:shimmer:0.2.0'
+    implementation 'com.carson_ho:SearchLayout:1.0.1'
     implementation 'com.youth.banner:banner:1.4.10'
 
     testImplementation 'junit:junit:4.12'

@@ -12,6 +12,7 @@
         android:textSize="12sp"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         />
     <TextView
@@ -25,11 +26,12 @@
     <TextView
         android:id="@+id/tourist"
         android:text="游客通道"
+        android:layout_marginRight="10dp"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-
         android:textColor="#19a29e"
         android:textSize="14sp" />
 </RelativeLayout>

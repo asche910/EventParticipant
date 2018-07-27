@@ -64,7 +64,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                     .into(imgHeader);
 
             textName.setText(eventBean.getName());
-            textCount.setText("已参加人数" + eventBean.getPersonCount());
+            textCount.setText("已参加人数: " + eventBean.getPersonCount());
             textTime.setText(eventBean.getStartTime() + " - " + eventBean.getEndTime());
             textWhere.setText(eventBean.getWhere());
             textNote.setText(eventBean.getNote());
