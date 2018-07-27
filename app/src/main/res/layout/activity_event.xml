@@ -97,7 +97,7 @@
                     android:gravity="center_vertical"
                     android:text="2018.08/22 09:00 - 2018.08/26 17:00"
                     android:textSize="15sp"
-                    android:textColor="#454545" />
+                    android:textColor="#222222" />
             </LinearLayout>
 
             <View
@@ -125,7 +125,7 @@
                     android:gravity="center_vertical"
                     android:text="北京顺义京新国际展览中心"
                     android:textSize="17sp"
-                    android:textColor="#454545" />
+                    android:textColor="#222222" />
             </LinearLayout>
 
             <View
@@ -154,7 +154,7 @@
                     android:paddingRight="10dp"
                     android:text="北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心"
                     android:textSize="17sp"
-                    android:textColor="#454545" />
+                    android:textColor="#222222" />
             </LinearLayout>
 
             <View

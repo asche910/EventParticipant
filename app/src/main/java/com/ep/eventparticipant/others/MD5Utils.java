@@ -1,4 +1,4 @@
-package com.ep.eventparticipant;
+package com.ep.eventparticipant.others;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
