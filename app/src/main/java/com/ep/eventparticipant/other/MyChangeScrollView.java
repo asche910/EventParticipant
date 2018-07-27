@@ -42,20 +42,12 @@ public class MyChangeScrollView extends ScrollView {
         this.shouldSlowlyChange = slowlyChange;
     }
 
-    /**
-     * 设置透明度渐变的标题view
-     *
-     * @param view
-     */
+
     public void setupTitleView(View view) {
         this.mTitleView = view;
     }
 
-    /**
-     * 跟随的view
-     *
-     * @param view
-     */
+
     public void setupByWhichView(View view) {
         mByWhichView = view;
     }
@@ -75,7 +67,7 @@ public class MyChangeScrollView extends ScrollView {
             fAM_stable.collapse();
         }
 
- /*       if (scrollY >= 450) {
+     if (scrollY >= 450) {
             mTitleView.setBackgroundColor(Color.WHITE);
 
         } else if (scrollY >= 0) {
@@ -91,7 +83,7 @@ public class MyChangeScrollView extends ScrollView {
                 mTitleView.setBackgroundColor(color);
             }
         }
-*/
+
         if (mListener != null) {
             mListener.onScroll(null, scrollX, scrollY, scrollY);
         }

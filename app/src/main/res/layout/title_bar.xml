@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/title_bar"
+    android:background="@color/white"
+    android:layout_height="50dp">
+    <TextView
+        android:id="@+id/tv_back"
+        android:background="@drawable/ic_arrow_back_black_24dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        />
+    <TextView
+        android:id="@+id/tv_main_title"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#19a29e"
+        android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/tourist"
+        android:text="游客通道"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+
+        android:textColor="#19a29e"
+        android:textSize="14sp" />
+</RelativeLayout>
