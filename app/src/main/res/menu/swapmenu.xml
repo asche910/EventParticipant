@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="交换信息"
+        android:id="@+id/item_1"
+        android:icon="@drawable/ic_swap_horiz_black_24dp"/>
+    <item android:icon="@drawable/ic_send_black_24dp"
+        android:id="@+id/ietm_2"
+        android:title="发布"/>
+    <item android:title="交换列表"
+        android:id="@+id/item_3"
+        android:icon="@drawable/ic_done_all_black_24dp"/>
 
 </menu>

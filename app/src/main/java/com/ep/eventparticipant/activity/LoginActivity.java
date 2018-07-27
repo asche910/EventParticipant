@@ -18,10 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ep.eventparticipant.MD5Utils;
+import com.ep.eventparticipant.other.MD5Utils;
 import com.ep.eventparticipant.R;
-
-import static com.ep.eventparticipant.MyApplication.getContext;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView tv_main_title;

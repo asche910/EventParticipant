@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ep.eventparticipant.others.OkHttp;
+import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.activity.Personal_information;
 import com.ep.eventparticipant.R;
 
