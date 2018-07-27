@@ -1,4 +1,4 @@
-package com.ep.eventparticipant;
+package com.ep.eventparticipant.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.ep.eventparticipant.OkHttp;
+import com.ep.eventparticipant.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -51,7 +51,6 @@ public class HomePopularAdapter extends RecyclerView.Adapter<HomePopularAdapter.
             context = parent.getContext();
         }
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_popular, parent, false);
-
         return new ViewHolder(view);
     }
 
@@ -66,6 +65,7 @@ public class HomePopularAdapter extends RecyclerView.Adapter<HomePopularAdapter.
         holder.textWhere.setText(eventBean.getWhere());
         holder.textTime.setText(eventBean.getStartTime());
 
+
         if(eventBean.isJoin()){
             holder.btn.setText("已报名");
         }
@@ -77,7 +77,6 @@ public class HomePopularAdapter extends RecyclerView.Adapter<HomePopularAdapter.
                 }
             });
         }
-
     }
 
     @Override

@@ -8,22 +8,20 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ep.eventparticipant.OkHttp;
-import com.ep.eventparticipant.Personal_information;
+import com.ep.eventparticipant.activity.Personal_information;
 import com.ep.eventparticipant.R;
-import com.ep.eventparticipant.portrait;
+import com.ep.eventparticipant.activity.exchangein;
+import com.ep.eventparticipant.activity.exchangeout;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,10 +41,18 @@ public class FragmentUser extends Fragment {
     private TextView Name;
     private TextView Signature;
     private TextView Phone;
+    private Button exchange_out;
+    private Button exchange_in;
+    private Button issue;
+    private Button participate;
+    private Button information;
     private File tempFile;
     private Uri imageUri;
+
+
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+
         View view = inflater.from(container.getContext()).inflate(R.layout.fragment_user, container, false);
         touxiang = (de.hdodenhof.circleimageview.CircleImageView)view.findViewById(R.id.touxiang);
         Name = (TextView)view.findViewById(R.id.Name);
@@ -74,6 +80,42 @@ public class FragmentUser extends Fragment {
                 Intent intent = new Intent(getActivity(), Personal_information.class);
                 startActivity(intent);
                 getBitmapFromSharedPreferences();
+            }
+        });
+        exchange_out = (Button)view.findViewById(R.id.exchange_out);
+        exchange_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), exchangeout.class);
+                startActivity(intent);
+            }
+        });
+        exchange_in = (Button)view.findViewById(R.id.exchange_in);
+        exchange_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), exchangein.class);
+                startActivity(intent);
+            }
+        });
+        issue = (Button)view.findViewById(R.id.issue);
+        issue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        information = (Button)view.findViewById(R.id.information);
+        information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        participate = (Button)view.findViewById(R.id.participate);
+        participate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         initView();

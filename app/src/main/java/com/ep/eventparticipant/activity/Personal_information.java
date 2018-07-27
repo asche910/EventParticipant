@@ -1,11 +1,10 @@
-package com.ep.eventparticipant;
+package com.ep.eventparticipant.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -16,16 +15,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.ep.eventparticipant.OkHttp;
+import com.ep.eventparticipant.R;
+import com.ep.eventparticipant.object.ExchangeOut;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
+
 public class Personal_information extends AppCompatActivity {
     private ImageView touxiang;
     private Button return_;
@@ -52,8 +60,26 @@ public class Personal_information extends AppCompatActivity {
         Phone =(TextView)findViewById(R.id.Phone);
         initView();
     }
-    private void initView() {
+    private void sendRequestWithOkHttp(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url("\"http://appserver。。。。。。。")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    parseJSONWithGSON(responseData);
+                }catch (Exception e){
+                    e.printStackTrace();;
+                }
+            }
+        }).start();
+    }
 
+    private void initView() {
         touxiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,9 +90,27 @@ public class Personal_information extends AppCompatActivity {
                     tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
                     // 从文件中创建uri
                     Uri uri = Uri.fromFile(tempFile);
+                    getBitmapFromSharedPreferences();
                 }
             }
         });
+
+        Name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        Phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+    }
+
+    private void parseJSONWithGSON(String jsonData){
+        Gson gson = new Gson();
 
     }
     private boolean hasSdcard() {
@@ -94,6 +138,7 @@ public class Personal_information extends AppCompatActivity {
                 saveBitmapToSharedPreferences(bitmap);
             }
         } else if (requestCode == PHOTO_REQUEST_CAREMA) {
+            Uri uri = data.getData();
             Bitmap bitmap = data.getParcelableExtra("data");
             touxiang.setImageBitmap(bitmap);
             saveBitmapToSharedPreferences(bitmap);
@@ -101,6 +146,7 @@ public class Personal_information extends AppCompatActivity {
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             // 从剪切图片返回的数据
             if (data != null) {
+                Uri uri = data.getData();
                 Bitmap bitmap = data.getParcelableExtra("data");
                 touxiang.setImageBitmap(bitmap);
                 saveBitmapToSharedPreferences(bitmap);

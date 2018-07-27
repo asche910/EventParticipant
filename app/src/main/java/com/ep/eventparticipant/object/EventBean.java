@@ -18,18 +18,18 @@ public class EventBean extends DataSupport {
 
 //  上7， 下4
     public EventBean(int id, String name, String startTime, String endTime, String where, String note, String imgUri,
-                     int organizerId, int personCount, String personNames, boolean isJoin) {
-        this.id = id;
-        this.name = name;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.where = where;
-        this.note = note;
-        this.imgUri = imgUri;
-        this.organizerId = organizerId;
-        this.personCount = personCount;
-        this.personNames = personNames;
-        this.isJoin = isJoin;
+        int organizerId, int personCount, String personNames, boolean isJoin) {
+            this.id = id;
+            this.name = name;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.where = where;
+            this.note = note;
+            this.imgUri = imgUri;
+            this.organizerId = organizerId;
+            this.personCount = personCount;
+            this.personNames = personNames;
+            this.isJoin = isJoin;
     }
 
     public EventBean() {
