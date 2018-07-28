@@ -47,9 +47,12 @@ public class AsHttpUtils {
             Response response = client.newCall(request).execute();
             //获得返回的主体
             result = response.body().string();
+            Log.e(TAG, "login: " + result );
             //获得返回头部信息中的Cookie信息并处理
             String setCookie = response.header("Set-Cookie");
+            Log.e(TAG, "login: " + setCookie );
             cookie = setCookie.substring(0, setCookie.indexOf(";")).trim();
+            Log.e(TAG, "login: " + cookie );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,7 +106,8 @@ public class AsHttpUtils {
         String result = "";
         try {
             Response response = client.newCall(request).execute();
-            result = response.body().toString();
+            result = response.body().string();
+            Log.e(TAG, "upImage: " + result );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,6 +134,7 @@ public class AsHttpUtils {
             Response response = client.newCall(request).execute();
             int code = new JSONObject(response.body().string()).getInt("status");
             // 0成功， 1失败
+            Log.e(TAG, "createActivity " + code );
             return code;
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,7 +217,7 @@ public class AsHttpUtils {
                     eventBean.setStartTime(jb.getString("activityTime").substring(0, jb.getString("activityTime").indexOf("-")).trim());
                     eventBean.setEndTime(jb.getString("activityTime").substring(jb.getString("activityTime").indexOf("-") + 1));
                     eventBean.setWhere(jb.getString("address"));
-                    eventBean.setImgUri("activityImageurl");
+                    eventBean.setImgUri(jb.getString("activityImageurl").replaceAll("\\\\", ""));
                     eventBean.setNote(jb.getString("introduction"));
 
 //                eventBean.setOrganizerId(0);
@@ -241,11 +246,14 @@ public class AsHttpUtils {
         if (isInt) {
             url_int = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityId=%s", args);
             builder.url(url_int);
+            builder.header("Cookie", cookie);
         }else{
             url_str = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityName=%s", args);
             builder.url(url_str);
             builder.header("Cookie", cookie);
+            Log.e(TAG, "searchActivity: " + cookie );
         }
+
         Request request = builder.build();
         try {
             Response response = client.newCall(request).execute();
@@ -264,7 +272,7 @@ public class AsHttpUtils {
                 eventBean.setStartTime(jb.getString("activityTime").substring(0, jb.getString("activityTime").indexOf("-")).trim());
                 eventBean.setEndTime(jb.getString("activityTime").substring(jb.getString("activityTime").indexOf("-") + 1 ));
                 eventBean.setWhere(jb.getString("address"));
-                eventBean.setImgUri("activityImageurl");
+                eventBean.setImgUri(jb.getString("activityImageurl").replaceAll("\\\\", ""));
                 eventBean.setNote(jb.getString("introduction"));
 
 //                eventBean.setOrganizerId(0);

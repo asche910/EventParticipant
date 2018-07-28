@@ -113,7 +113,6 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
             }
             btnImage.setText("");
         }
-
     }
 
 
@@ -127,14 +126,20 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                 String where = editWhere.getText().toString();
                 String note = editNote.getText().toString();
 
-                if (index == -1) {
-                    AsHttpUtils.createActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
-                }else{
-                    AsHttpUtils.updateActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
-                }
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (index == -1) {
+                            AsHttpUtils.createActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
+                        }else{
+                            AsHttpUtils.updateActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
+                        }
+                    }
+                }).start();
 
                 Toast.makeText(this, "Success！", Toast.LENGTH_SHORT).show();
+                finish();
+
                 break;
             case R.id.event_new_btn_image:
                 Matisse.from(this)
@@ -166,7 +171,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                                                 (nowMonth == monthOfYear && nowDay <= dayOfMonth))
                                         )
                                         ) {
-                                    String strDate = String.format("%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                                    String strDate = String.format("%d.%02d.%02d", year, monthOfYear + 1, dayOfMonth);
                                     textEnd.setText(strDate);
                                 } else {
                                     Toast.makeText(getApplicationContext(), "请选择未来的日期！", Toast.LENGTH_SHORT).show();
@@ -198,7 +203,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                                                 (nowMonth == monthOfYear && nowDay <= dayOfMonth))
                                         )
                                         ) {
-                                    String strDate = String.format("%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                                    String strDate = String.format("%d.%02d.%02d", year, monthOfYear + 1, dayOfMonth);
                                     textStart.setText(strDate);
                                 } else {
                                     Toast.makeText(getApplicationContext(), "请选择未来的日期！", Toast.LENGTH_SHORT).show();

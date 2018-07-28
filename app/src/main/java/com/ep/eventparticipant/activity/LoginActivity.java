@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        startActivity(intent);
 
         getPermissions();
         init();
@@ -68,6 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         btn_login=findViewById(R.id.btn_login);
         et_user_name=findViewById(R.id.et_user_name);
         et_psw=findViewById(R.id.et_psw);
+
+        et_user_name.setText("root");
+        et_psw.setText("password");
+
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
