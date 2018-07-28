@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.adapter.UserExchangeInAdapter;
@@ -15,11 +17,19 @@ import java.util.List;
 
 public class exchangein extends AppCompatActivity {
     private List<ExchangeIn> exchangeIns = new ArrayList<>();
+    private Button return_;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exchangein);
         inits();
+        return_ = findViewById(R.id.return_);
+        return_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.exchangein_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
