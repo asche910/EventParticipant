@@ -133,6 +133,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                     AsHttpUtils.updateActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
                 }
 
+
                 Toast.makeText(this, "Success！", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.event_new_btn_image:

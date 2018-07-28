@@ -49,6 +49,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private List<EventBean> list = new ArrayList<>();
     private EventBean eventBean;
 
+    private boolean isSuccess;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,7 +132,9 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-//                        AsHttpUtils.
+                        if(AsHttpUtils.joinActivity(eventBean.getId()) == 0){
+                            isSuccess = true;
+                        }
                     }
                 });
                 thread.start();
@@ -140,8 +144,12 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                     e.printStackTrace();
                 }
 
+                if (isSuccess) {
+                    Toast.makeText(this, "报名成功！", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "请勿重复报名！", Toast.LENGTH_SHORT).show();
+                }
 
-                Toast.makeText(this, "报名成功！", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.event_btn_share:
                 Toast.makeText(this, "正在分享中......", Toast.LENGTH_SHORT).show();

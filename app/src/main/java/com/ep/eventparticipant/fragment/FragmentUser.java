@@ -40,6 +40,7 @@ import java.util.Map;
 import okhttp3.Request;
 
 public class FragmentUser extends Fragment {
+
     private de.hdodenhof.circleimageview.CircleImageView touxiang;
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择

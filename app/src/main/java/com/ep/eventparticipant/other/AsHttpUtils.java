@@ -1,5 +1,7 @@
 package com.ep.eventparticipant.other;
 
+import android.util.Log;
+
 import com.ep.eventparticipant.object.EventBean;
 
 import org.json.JSONArray;
@@ -16,6 +18,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.support.constraint.Constraints.TAG;
 import static com.ep.eventparticipant.fragment.FragmentHome.eventBeanList;
 import static com.ep.eventparticipant.fragment.FragmentHome.mySearchList;
 import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
@@ -121,6 +124,7 @@ public class AsHttpUtils {
 
         Request request = new Request.Builder()
                 .url(url)
+                .header("Cookie", cookie)
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -140,6 +144,7 @@ public class AsHttpUtils {
 
         Request request = new Request.Builder()
                 .url(url)
+                .header("Cookie", cookie)
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -157,6 +162,7 @@ public class AsHttpUtils {
         String url = String.format("http://120.79.137.167:8080/firstProject/activity_member/sign_up.do?activityId=%d", id);
         Request request = new Request.Builder()
                 .url(url)
+                .header("Cookie", cookie)
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -173,6 +179,7 @@ public class AsHttpUtils {
         String url = String.format("http://120.79.137.167:8080/firstProject/activity_member/cancel_sign_up.do?activityId=%d", id);
         Request request = new Request.Builder()
                 .url(url)
+                .header("Cookie", cookie)
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -188,6 +195,7 @@ public class AsHttpUtils {
     public static int allActivity(){
         Request request = new Request.Builder()
                 .url("http://120.79.137.167:8080/firstProject/activity/List.do")
+                .header("Cookie", cookie)
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -226,19 +234,24 @@ public class AsHttpUtils {
 
 //    搜索活动
     public static int searchActivity(String args, boolean isInt){
-        String url_int = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityId=%d", args);
-        String url_str = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityName=%s", args);
+        String url_int = null;
+        String url_str = null;
 
         Request.Builder builder = new Request.Builder();
         if (isInt) {
+            url_int = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityId=%s", args);
             builder.url(url_int);
         }else{
+            url_str = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityName=%s", args);
             builder.url(url_str);
+            builder.header("Cookie", cookie);
         }
         Request request = builder.build();
         try {
             Response response = client.newCall(request).execute();
             JSONObject jsonObject = new JSONObject(response.body().string());
+
+            Log.e(TAG, "searchActivity: " + jsonObject.toString() );
             int code = jsonObject.getInt("status");
 
             JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");

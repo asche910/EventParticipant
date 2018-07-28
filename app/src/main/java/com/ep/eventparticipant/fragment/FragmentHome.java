@@ -320,6 +320,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         Intent intent_3 = new Intent(getContext(), EventResultActivity.class);
                         intent_3.putExtra("ListType", SEARCH_LIST);
                         startActivity(intent_3);
