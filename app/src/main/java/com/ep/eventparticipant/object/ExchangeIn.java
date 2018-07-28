@@ -1,7 +1,7 @@
 package com.ep.eventparticipant.object;
 
 import android.widget.ArrayAdapter;
-
+//
 public class ExchangeIn{
     private String name;
     private int ImageId;

@@ -6,7 +6,7 @@ import android.widget.Button;
 public class ExchangeOut {
     private String name;
     private int ImageId;
-
+//
     public  ExchangeOut(String name,int ImageId) {
         this.name =name;
         this.ImageId = ImageId;
