@@ -37,6 +37,10 @@ dependencies {
     //    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     api 'com.squareup.okhttp3:logging-interceptor:3.4.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'org.litepal.android:core:1.6.1'
+    // compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    api 'com.squareup.okhttp3:logging-interceptor:3.4.2'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     implementation(name: 'bottom-navigation-bar-2.0.4', ext: 'aar')
     implementation 'org.litepal.android:core:1.6.1'
@@ -52,6 +56,7 @@ dependencies {
     implementation 'org.litepal.android:core:1.6.1'
     implementation(name: 'bottom-navigation-bar-2.0.4', ext: 'aar')
 
+    api 'com.google.code.gson:gson:2.7'
 
     implementation 'com.facebook.shimmer:shimmer:0.2.0'
     implementation 'com.carson_ho:SearchLayout:1.0.1'

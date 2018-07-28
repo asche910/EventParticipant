@@ -6,8 +6,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -47,6 +45,10 @@
         <activity android:name=".activity.PublishActivity" />
         <activity android:name=".activity.OtherActivity" />
         <activity android:name=".activity.ExchangeInformation"></activity>
+        <activity android:name=".activity.exchangeout" />
+        <activity android:name=".activity.exchangein" />
+        <activity android:name=".activity.modification" />
+        <activity android:name=".activity.midificateSignature"></activity>
     </application>
 
 </manifest>

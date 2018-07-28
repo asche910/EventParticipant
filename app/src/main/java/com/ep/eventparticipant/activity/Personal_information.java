@@ -18,25 +18,34 @@ import android.widget.TextView;
 
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.R;
+import com.ep.eventparticipant.R;
+import com.ep.eventparticipant.object.ExchangeOut;
+import com.ep.eventparticipant.object.User;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
+
 public class Personal_information extends AppCompatActivity {
     private ImageView touxiang;
     private Button return_;
     private TextView Name;
     private TextView Phone;
+    private TextView Signature;
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
     private  File tempFile;
+    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +60,29 @@ public class Personal_information extends AppCompatActivity {
         });
         Name = (TextView)findViewById(R.id.Name);
         Phone =(TextView)findViewById(R.id.Phone);
+        Signature = (TextView)findViewById(R.id.Signature);
         initView();
     }
-    private void initView() {
+    private void sendRequestWithOkHttp(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url("\"http://appserver。。。。。。。")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    parseJSONWithGSON(responseData);
+                }catch (Exception e){
+                    e.printStackTrace();;
+                }
+            }
+        }).start();
+    }
 
+    private void initView() {
         touxiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,9 +93,37 @@ public class Personal_information extends AppCompatActivity {
                     tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
                     // 从文件中创建uri
                     Uri uri = Uri.fromFile(tempFile);
+                    getBitmapFromSharedPreferences();
                 }
             }
         });
+
+        Name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Personal_information.this,modification.class);
+                startActivity(intent);
+            }
+        });
+
+        Phone.setText(user.getPhone());
+        Phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Phone.setText(user.getPhone());
+            }
+        });
+
+        Signature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Personal_information.this,midificateSignature.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void parseJSONWithGSON(String jsonData){
 
     }
     private boolean hasSdcard() {
@@ -95,6 +151,7 @@ public class Personal_information extends AppCompatActivity {
                 saveBitmapToSharedPreferences(bitmap);
             }
         } else if (requestCode == PHOTO_REQUEST_CAREMA) {
+            Uri uri = data.getData();
             Bitmap bitmap = data.getParcelableExtra("data");
             touxiang.setImageBitmap(bitmap);
             saveBitmapToSharedPreferences(bitmap);
@@ -102,6 +159,7 @@ public class Personal_information extends AppCompatActivity {
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             // 从剪切图片返回的数据
             if (data != null) {
+                Uri uri = data.getData();
                 Bitmap bitmap = data.getParcelableExtra("data");
                 touxiang.setImageBitmap(bitmap);
                 saveBitmapToSharedPreferences(bitmap);
