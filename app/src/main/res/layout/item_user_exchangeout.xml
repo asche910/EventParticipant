@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:background="@drawable/btn_background1"
         android:layout_marginBottom="0dp">
-
+//
         <ImageView
             android:id="@+id/exchange_out_image"
             android:layout_width="0dp"

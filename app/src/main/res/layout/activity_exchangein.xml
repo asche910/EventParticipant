@@ -18,7 +18,7 @@
                 android:layout_height="45dp">
             </android.support.v7.widget.Toolbar>
             <Button
-                android:id="@+id/return_1"
+                android:id="@+id/return_"
                 android:background="@drawable/ic_chevron_left_white_24dp"
                 android:layout_width="45dp"
                 android:layout_height="45dp" />`

@@ -39,7 +39,9 @@
         <activity android:name=".activity.EventActivity" />
         <activity android:name=".activity.EventNewActivity" />
         <activity android:name=".activity.exchangeout" />
-        <activity android:name=".activity.exchangein"></activity>
+        <activity android:name=".activity.exchangein" />
+        <activity android:name=".activity.modification" />
+        <activity android:name=".activity.midificateSignature"></activity>
     </application>
 
 </manifest>
