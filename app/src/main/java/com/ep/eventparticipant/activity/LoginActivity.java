@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ep.eventparticipant.other.AsHttpUtils;
 import com.ep.eventparticipant.other.MD5Utils;
 import com.ep.eventparticipant.R;
 
@@ -30,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private String userName,psw,spPsw;
     private EditText et_user_name,et_psw;
+
+    private boolean isSuccess;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,22 +95,39 @@ public class LoginActivity extends AppCompatActivity {
                 userName=et_user_name.getText().toString().trim();
                 psw=et_psw.getText().toString().trim();
 
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(AsHttpUtils.login(userName, psw) == 0){
+                            isSuccess = true;
+                        }
+                    }
+                });
+                thread.start();
+                try {
+                     thread.join(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 String md5Psw= MD5Utils.md5(psw);
 
-                spPsw=readPsw(userName);
+//                spPsw=readPsw(userName);
                 if(TextUtils.isEmpty(userName)){
                     Toast.makeText(LoginActivity.this, "请输入用户名", Toast.LENGTH_SHORT).show();
                     return;
                 }else if(TextUtils.isEmpty(psw)){
                     Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
-                }else if(md5Psw.equals(spPsw)){
+                }else if(isSuccess){
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     saveLoginStatus(true, userName);
                     Intent data=new Intent();
                     data.putExtra("isLogin",true);
                     setResult(RESULT_OK,data);
                     LoginActivity.this.finish();
+
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     return;
                 }else if((spPsw!=null&&!TextUtils.isEmpty(spPsw)&&!md5Psw.equals(spPsw))){

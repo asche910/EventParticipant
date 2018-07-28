@@ -2,6 +2,14 @@ package com.ep.eventparticipant.object;
 
 import org.litepal.crud.DataSupport;
 
+/**
+ * @author As_
+ * @since 2018/07/24
+ * @email apknet@163.com
+ * @github https://github.com/apknet
+ *
+ */
+
 public class EventBean extends DataSupport {
 
     private int id;

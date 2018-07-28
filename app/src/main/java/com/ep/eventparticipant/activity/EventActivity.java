@@ -29,6 +29,14 @@ import static com.ep.eventparticipant.fragment.FragmentHome.myCreatedList;
 import static com.ep.eventparticipant.fragment.FragmentHome.myJoinedList;
 import static com.ep.eventparticipant.fragment.FragmentHome.mySearchList;
 
+/**
+ * @author As_
+ * @since 2018/07/24
+ * @email apknet@163.com
+ * @github https://github.com/apknet
+ *
+ */
+
 public class EventActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView textName, textCount, textTime, textWhere, textNote, textOrgName, textOrgTel, textOrgNote;

@@ -41,6 +41,7 @@ import java.util.List;
 
 public class FragmentSwap extends Fragment {
 private View view;
+
 private EditText editText;
 private Banner banner;
 private List<Integer> imgs=new ArrayList<>();

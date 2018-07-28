@@ -32,6 +32,7 @@ import com.ep.eventparticipant.activity.EventResultActivity;
 import com.ep.eventparticipant.adapter.HomePopularAdapter;
 import com.ep.eventparticipant.adapter.HomeSuggestAdapter;
 import com.ep.eventparticipant.object.EventBean;
+import com.ep.eventparticipant.other.AsHttpUtils;
 import com.ep.eventparticipant.other.MyChangeScrollView;
 import com.ep.eventparticipant.other.ViewPagerClass;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -44,7 +45,16 @@ import java.util.Random;
 import okhttp3.OkHttpClient;
 
 import static android.support.constraint.Constraints.TAG;
+import static com.ep.eventparticipant.activity.MainActivity.getRandomId;
 import static com.ep.eventparticipant.activity.MainActivity.resourceIdToUri;
+
+/**
+ * @author As_
+ * @since 2018/07/24
+ * @email apknet@163.com
+ * @github https://github.com/apknet
+ *
+ */
 
 public class FragmentHome extends Fragment implements View.OnClickListener {
     ViewPagerClass viewPagerClass;
@@ -101,6 +111,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         viewPagerClass = getActivity().findViewById(R.id.viewpager_home);
         viewPagerClass.setViewPagerViews(viewList);
+
 
         scrollView = getActivity().findViewById(R.id.scrollView_home);
         fAM_stable = getActivity().findViewById(R.id.float_stable);
@@ -201,25 +212,25 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         viewList.add(img_4);
         viewList.add(img_5);
 
-        EventBean eventBean_1 = new EventBean(new Random(System.currentTimeMillis()).nextInt(), "BIBF国际绘本展门票及会员卡",
+        EventBean eventBean_1 = new EventBean(getRandomId(), "BIBF国际绘本展门票及会员卡",
                 "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
                 resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(),
                 666, resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(), "AFIH组委会_1", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
                 99, "Lihua, Asche_, Job", false);
 
-        EventBean eventBean_2 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
+        EventBean eventBean_2 = new EventBean(getRandomId(), "BIBF国际绘本展门票及会员卡",
                 "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
                 resourceIdToUri(getContext(), R.drawable.bg_home_3).toString(),
                 666, resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(), "AFIH组委会_2", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
                 99, "Lihua, Asche_, Job", false);
 
-        EventBean eventBean_3 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
+        EventBean eventBean_3 = new EventBean(getRandomId(), "BIBF国际绘本展门票及会员卡",
                 "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
-                resourceIdToUri(getContext(), R.drawable.bg_home_4).toString(),
+                resourceIdToUri(getContext(), R.drawable.bg_home_1).toString(),
                 666,resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(), "AFIH组委会_3", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",
                 99, "Lihua, Asche_, Job", false);
 
-        EventBean eventBean_4 = new EventBean(new Random().nextInt(), "BIBF国际绘本展门票及会员卡",
+        EventBean eventBean_4 = new EventBean(getRandomId(), "BIBF国际绘本展门票及会员卡",
                 "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",
                 resourceIdToUri(getContext(), R.drawable.bg_home_5).toString(),
                 666,resourceIdToUri(getContext(), R.drawable.bg_home_2).toString(),  "AFIH组委会_4", "电话：10086100861", "北京城市艺术博览会\\nAFIH重点在于建设一个不同以往的博览会模式，准备...",

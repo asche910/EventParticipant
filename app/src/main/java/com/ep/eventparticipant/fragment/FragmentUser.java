@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ep.eventparticipant.object.User;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.activity.Personal_information;
 import com.ep.eventparticipant.R;
@@ -40,6 +41,10 @@ public class FragmentUser extends Fragment {
     private TextView Phone;
     private File tempFile;
     private Uri imageUri;
+
+
+    public static User curUser = new User();
+
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.from(container.getContext()).inflate(R.layout.fragment_user, container, false);

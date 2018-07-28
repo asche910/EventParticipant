@@ -5,10 +5,12 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,15 +25,25 @@ import com.ep.eventparticipant.fragment.FragmentHome;
 import com.ep.eventparticipant.fragment.FragmentSwap;
 import com.ep.eventparticipant.fragment.FragmentUser;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.ep.eventparticipant.fragment.FragmentHome.editTitle;
 import static com.ep.eventparticipant.fragment.FragmentHome.inputMethodManager;
 import static com.ep.eventparticipant.fragment.FragmentHome.isShouldHideInput;
 import static com.ep.eventparticipant.fragment.FragmentHome.viewList;
+
+/**
+ * @author As_
+ * @since 2018/07/24
+ * @email apknet@163.com
+ * @github https://github.com/apknet
+ *
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +58,30 @@ public class MainActivity extends AppCompatActivity {
     //从资源文件获得对应Uri
     public static final String ANDROID_RESOURCE = "android.resource://";
     public static final String FOREWARD_SLASH = "/";
+
+//            1.登陆
+    public static final String LOGIN_URL = "http://120.79.137.167:8080/firstProject/user/login.do";
+//            2.注册
+    public static final String LOGUP_URL = "http://120.79.137.167:8080/firstProject/user/register.do";
+
+
+//    <<<-- - - - - - - - - - - - - - - - - - - -分割线 - - - - - - - - - -  - - - - - - - - -->>>>
+
+
+//            1、发布活动
+    public static final String CREATE_ACTIVITY = "http://120.79.137.167:8080/firstProject/activity/release.do";
+//            2、删除活动
+    public static final String DELETE_ACTIVITY = "http://120.79.137.167:8080/firstProject/activity/delete.do";
+//            3、搜索活动
+    public static final String SEARCH_ACTIVITY = "http://120.79.137.167:8080/firstProject/search.do";
+//            4、活动列表
+    public static final String ALL_ACTIVITY = "http://120.79.137.167:8080/firstProject/activity/List.do";
+//            5、更新活动
+    public static final String UPDATE_ACTIVITY = "http://120.79.137.167:8080/firstProject/activity/update_information.do";
+//            6、报名活动
+    public static final String JOIN_ACTIVITY = "http://120.79.137.167:8080/firstProject/activity_member/sign_up.do";
+//            7、取消报名
+    public static final String CANCEL_ACTIVITY  = " http://120.79.137.167:8080/firstProject/activity_member/cancel_sign_up.do";
 
 
     @Override
@@ -133,6 +169,17 @@ public class MainActivity extends AppCompatActivity {
 
     public static Uri resourceIdToUri(Context context, int resourceId) {
         return Uri.parse(ANDROID_RESOURCE + context.getPackageName() + FOREWARD_SLASH + resourceId);
+    }
+
+
+    public static int getRandomId(){
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder();
+        //随机生6位数Id
+        for(int i = 0; i< 6; i++){
+            stringBuilder.append(random.nextInt(10));
+        }
+        return Integer.parseInt(stringBuilder.toString());
     }
 
     class MyPagerChangeListener implements ViewPager.OnPageChangeListener {

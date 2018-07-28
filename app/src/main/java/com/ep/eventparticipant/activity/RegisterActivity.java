@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ep.eventparticipant.other.AsHttpUtils;
 import com.ep.eventparticipant.other.MD5Utils;
 import com.ep.eventparticipant.R;
 
@@ -26,9 +27,11 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tv_back;
     private TextView tourist;
     private Button btn_register;
-    private EditText et_user_name,et_psw,et_psw_again;
-    private String userName,psw,pswAgain;
+    private EditText et_user_name,et_psw,et_psw_again, editName;
+    private String userName, name, psw,pswAgain;
     private RelativeLayout rl_title_bar;
+
+    private boolean isSuccess;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         et_user_name=findViewById(R.id.et_user_name);
         et_psw=findViewById(R.id.et_psw);
         et_psw_again=findViewById(R.id.et_psw_again);
+        editName = findViewById(R.id.nickname);
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,17 +84,37 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "输入两次的密码不一样", Toast.LENGTH_SHORT).show();
                     return;
 
-                }else if(isExistUserName(userName)){
+                }/*else if(isExistUserName(userName)){
                     Toast.makeText(RegisterActivity.this, "此账户名已经存在", Toast.LENGTH_SHORT).show();
                     return;
-                }else{
-                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                    saveRegisterInfo(userName, psw);
-                    Intent data = new Intent();
-                    data.putExtra("userName", userName);
-                    setResult(RESULT_OK, data);
+                }*/else{
 
-                    RegisterActivity.this.finish();
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(AsHttpUtils.register(name ,userName, psw) == 0){
+                                isSuccess = true;
+                            }
+                        }
+                    });
+                    thread.start();
+                    try {
+                        thread.join(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (isSuccess) {
+                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+//                        saveRegisterInfo(userName, psw);
+                        Intent data = new Intent();
+                        data.putExtra("userName", userName);
+                        setResult(RESULT_OK, data);
+
+                        RegisterActivity.this.finish();
+                    }else{
+                        Toast.makeText(RegisterActivity.this, "注册失败， 该用户名已存在！", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -98,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void getEditString(){
         userName=et_user_name.getText().toString().trim();
+        name = editName.getText().toString().trim();
         psw=et_psw.getText().toString().trim();
         pswAgain=et_psw_again.getText().toString().trim();
     }

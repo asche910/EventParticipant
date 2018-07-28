@@ -6,11 +6,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-=======
->>>>>>> tuao1-master
 
     <application
         android:name=".MyApplication"
@@ -28,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.Personal_information" />
-        <activity android:name=".activity.portrait"></activity>
+        <activity android:name=".activity.portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -39,6 +36,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.EventActivity"/>
         <activity android:name=".activity.EventNewActivity"/>
@@ -48,11 +46,7 @@
         <activity android:name=".activity.FindThing" />
         <activity android:name=".activity.PublishActivity" />
         <activity android:name=".activity.OtherActivity" />
-<<<<<<< HEAD
         <activity android:name=".activity.ExchangeInformation"></activity>
-=======
-        <activity android:name=".activity.ExchangeInformation"/>
->>>>>>> tuao1-master
     </application>
 
 </manifest>

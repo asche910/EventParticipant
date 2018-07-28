@@ -32,6 +32,14 @@ import java.util.Random;
 
 import static com.ep.eventparticipant.fragment.FragmentHome.myCreatedList;
 
+/**
+ * @author As_
+ * @since 2018/07/24
+ * @email apknet@163.com
+ * @github https://github.com/apknet
+ *
+ */
+
 public class EventNewActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnBack, btnStart, btnEnd, btnImage, btnSave;
