@@ -94,6 +94,33 @@
         <TextView
             android:layout_marginLeft="12dp"
             android:textSize="18sp"
+            android:text="个性签名"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/Signature"
+            android:text="xxx"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:textSize="18sp"
+            android:textColor="@color/深灰色"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/灰色"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:textSize="18sp"
             android:text="手机号"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
@@ -109,5 +136,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
 
 </LinearLayout>

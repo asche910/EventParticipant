@@ -20,6 +20,15 @@ import com.ep.eventparticipant.object.User;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.activity.Personal_information;
 import com.ep.eventparticipant.R;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.ep.eventparticipant.activity.Personal_information;
+import com.ep.eventparticipant.R;
+import com.ep.eventparticipant.activity.exchangein;
+import com.ep.eventparticipant.activity.exchangeout;
+import com.ep.eventparticipant.object.User;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,6 +48,12 @@ public class FragmentUser extends Fragment {
     private TextView Name;
     private TextView Signature;
     private TextView Phone;
+    private Button exchange_out;
+    private Button exchange_in;
+    private Button issue;
+    private Button participate;
+    private Button information;
+//    private RelativeLayout exchange_in_btn;
     private File tempFile;
     private Uri imageUri;
 
@@ -47,9 +62,11 @@ public class FragmentUser extends Fragment {
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+        User user = new User();
         View view = inflater.from(container.getContext()).inflate(R.layout.fragment_user, container, false);
         touxiang = (de.hdodenhof.circleimageview.CircleImageView)view.findViewById(R.id.touxiang);
         Name = (TextView)view.findViewById(R.id.Name);
+        Name.setText(user.getName());
         Name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +75,9 @@ public class FragmentUser extends Fragment {
                 getBitmapFromSharedPreferences();
             }
         });
+        //个性签名
         Signature = (TextView)view.findViewById(R.id.Signature);
+        Signature.setText(user.getSignature());
         Signature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +86,9 @@ public class FragmentUser extends Fragment {
                 getBitmapFromSharedPreferences();
             }
         });
+        //手机号
         Phone = (TextView)view.findViewById(R.id.Phone);
+        Phone.setText(user.getPhone());
         Phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +97,48 @@ public class FragmentUser extends Fragment {
                 getBitmapFromSharedPreferences();
             }
         });
+        //我的换出
+        exchange_out = (Button)view.findViewById(R.id.exchange_out);
+        exchange_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), exchangeout.class);
+                startActivity(intent);
+            }
+        });
+        //我的换入
+        exchange_in = (Button)view.findViewById(R.id.exchange_in);
+        exchange_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), exchangein.class);
+                startActivity(intent);
+            }
+        });
+        //我的发布
+        issue = (Button)view.findViewById(R.id.issue);
+        issue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        //交换信息
+        information = (Button)view.findViewById(R.id.information);
+        information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //我参与的
+        participate = (Button)view.findViewById(R.id.participate);
+        participate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        getBitmapFromSharedPreferences();
         initView();
         return  view;
     }
@@ -157,17 +220,10 @@ public class FragmentUser extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("image", imageString);
         editor.commit();
-
         //上传头像
         setImgByStr(imageString,"");
     }
 
-
-    /**
-     * 上传头像       此处使用用的OKHttp post请求上传的图片
-     * @param imgStr
-     * @param imgName
-     */
     public  void setImgByStr(String imgStr, String imgName) {
         String url = "http://appserver。。。。。。。";
         Map<String, String> params = new HashMap<String, String>();
@@ -184,6 +240,7 @@ public class FragmentUser extends Fragment {
             }
         });
     }
+
     private void getBitmapFromSharedPreferences(){
         SharedPreferences sharedPreferences= getActivity().getSharedPreferences("testSP", Context.MODE_PRIVATE);
         //第一步:取出字符串形式的Bitmap

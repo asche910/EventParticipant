@@ -46,7 +46,6 @@ public class EventBean extends DataSupport {
         this.personNames = personNames;
         this.isJoin = isJoin;
     }
-
     public EventBean() {
     }
 
