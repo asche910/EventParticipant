@@ -38,7 +38,7 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
-    /* 头像名称 */
+    /* 头像名称 *///
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
     private  File tempFile;
 
