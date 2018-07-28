@@ -19,11 +19,13 @@ public class EventBean extends DataSupport {
     private String where;
     private String note;
     private String imgUri;
+
     private int organizerId;
     private String organizerHeader;
     private String organizerName;
     private String organizerTel;
     private String organizerNote;
+
     private int personCount;
     private String personNames;
     private boolean isJoin;

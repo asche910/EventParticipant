@@ -20,30 +20,34 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.object.EventBean;
+import com.ep.eventparticipant.other.AsHttpUtils;
 import com.ep.eventparticipant.other.Glide4Engine;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import static com.ep.eventparticipant.activity.MainActivity.getRandomId;
+import static com.ep.eventparticipant.fragment.FragmentHome.getPath;
 import static com.ep.eventparticipant.fragment.FragmentHome.myCreatedList;
 
 /**
  * @author As_
- * @since 2018/07/24
  * @email apknet@163.com
  * @github https://github.com/apknet
- *
+ * @since 2018/07/24
  */
 
 public class EventNewActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnBack, btnStart, btnEnd, btnImage, btnSave;
-    TextView textTitle,textStart, textEnd;
+    TextView textTitle, textStart, textEnd;
     EditText editName, editWhere, editNote;
 
     private int index;
@@ -65,11 +69,10 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
         init();
 
 
-
     }
 
     void init() {
-        randomId = new Random().nextInt();
+        randomId = getRandomId();
         btnBack = findViewById(R.id.event_new_btn_back);
         btnStart = findViewById(R.id.event_new_btn_start);
         btnEnd = findViewById(R.id.event_new_btn_end);
@@ -91,7 +94,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
 
         index = getIntent().getIntExtra("Position", -1);
 
-        if(index != -1){
+        if (index != -1) {
             eventBean = myCreatedList.get(index);
             randomId = eventBean.getId();
             imgUri = eventBean.getImgUri();
@@ -124,6 +127,11 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                 String where = editWhere.getText().toString();
                 String note = editNote.getText().toString();
 
+                if (index == -1) {
+                    AsHttpUtils.createActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
+                }else{
+                    AsHttpUtils.updateActivity(randomId, name, startTime + " - " + endTime, where, note, imgUri);
+                }
 
                 Toast.makeText(this, "Success！", Toast.LENGTH_SHORT).show();
                 break;
@@ -157,9 +165,9 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                                                 (nowMonth == monthOfYear && nowDay <= dayOfMonth))
                                         )
                                         ) {
-                                    String strDate = String.format("%d-%02d-%02d", year, monthOfYear+1, dayOfMonth);
+                                    String strDate = String.format("%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
                                     textEnd.setText(strDate);
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), "请选择未来的日期！", Toast.LENGTH_SHORT).show();
 
                                 }
@@ -191,7 +199,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                                         ) {
                                     String strDate = String.format("%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
                                     textStart.setText(strDate);
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), "请选择未来的日期！", Toast.LENGTH_SHORT).show();
 
                                 }
@@ -210,6 +218,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
         }
+
     }
 
     @Override
@@ -222,12 +231,25 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
             }
             imgUri = list.get(0).toString();
 //            uri = list.get(0);
-            ContentResolver contentResolver = getContentResolver();
 
+            File file = new File(getPath(getApplicationContext(), Uri.parse(imgUri)));
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    imgUri =  AsHttpUtils.upImage(file);
+                }
+            }).start();
+
+            Toast.makeText(this, "图片上传中......", Toast.LENGTH_SHORT).show();
+
+            ContentResolver contentResolver = getContentResolver();
             try {
-                btnImage.setBackground(Drawable.createFromStream(contentResolver.openInputStream(list.get(0)), null));
+                InputStream inputStream = contentResolver.openInputStream(list.get(0));
+
+                btnImage.setBackground(Drawable.createFromStream(inputStream , null));
                 btnImage.setText("");
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

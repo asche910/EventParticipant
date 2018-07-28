@@ -1,9 +1,14 @@
 package com.ep.eventparticipant.fragment;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -47,6 +52,10 @@ import okhttp3.OkHttpClient;
 import static android.support.constraint.Constraints.TAG;
 import static com.ep.eventparticipant.activity.MainActivity.getRandomId;
 import static com.ep.eventparticipant.activity.MainActivity.resourceIdToUri;
+import static com.zhihu.matisse.internal.utils.PathUtils.getDataColumn;
+import static com.zhihu.matisse.internal.utils.PathUtils.isDownloadsDocument;
+import static com.zhihu.matisse.internal.utils.PathUtils.isExternalStorageDocument;
+import static com.zhihu.matisse.internal.utils.PathUtils.isMediaDocument;
 
 /**
  * @author As_
@@ -94,7 +103,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     public static final int JOINED_LIST = 2;
     public static final int SEARCH_LIST = 3;
 
-
+    //判断标题输入内容
+    boolean isNum;
 
     @Nullable
     @Override
@@ -187,7 +197,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         });
 
     }
-
 
     private void init() {
 
@@ -288,7 +297,33 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                     if (editTitle.getText().toString().equals("")) {
                         Toast.makeText(MyApplication.getContext(), "请输入要搜索的内容！", Toast.LENGTH_SHORT).show();
                     } else {
+
                         Toast.makeText(getContext(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
+
+                        try {
+                            Integer.parseInt(editTitle.getText().toString());
+                            isNum = true;
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                            isNum = false;
+                        }
+
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                AsHttpUtils.searchActivity(editTitle.getText().toString(), isNum);
+                            }
+                        });
+                        thread.start();
+                        try {
+                            thread.join(4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent_3 = new Intent(getContext(), EventResultActivity.class);
+                        intent_3.putExtra("ListType", SEARCH_LIST);
+                        startActivity(intent_3);
+
                     }
                 }
                 break;
@@ -311,4 +346,64 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         }
         return false;
     }
+
+
+    public static String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id
+                        = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{split[1]};
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
+    }
+
 }

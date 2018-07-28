@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.object.EventBean;
+import com.ep.eventparticipant.other.AsHttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,20 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.event_btn_join:
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        AsHttpUtils.
+                    }
+                });
+                thread.start();
+                try {
+                    thread.join(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
                 Toast.makeText(this, "报名成功！", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.event_btn_share:

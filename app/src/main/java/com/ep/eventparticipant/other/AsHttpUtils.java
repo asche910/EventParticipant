@@ -1,5 +1,8 @@
 package com.ep.eventparticipant.other;
 
+import com.ep.eventparticipant.object.EventBean;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +16,19 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.ep.eventparticipant.fragment.FragmentHome.eventBeanList;
+import static com.ep.eventparticipant.fragment.FragmentHome.mySearchList;
 import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
+
+/**
+ * 接口请求工具类
+ *
+ * @author As_
+ * @since 2018/07/24
+ * @email apknet@163.com
+ * @github https://github.com/apknet
+ *
+ */
 
 public class AsHttpUtils {
     private static   OkHttpClient client = new OkHttpClient();
@@ -169,10 +184,50 @@ public class AsHttpUtils {
         return 1;
     }
 
+//    活动列表
+    public static int allActivity(){
+        Request request = new Request.Builder()
+                .url("http://120.79.137.167:8080/firstProject/activity/List.do")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            JSONObject jsonObject = new JSONObject(response.body().string());
+            int code = jsonObject.getInt("status");
+            JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
+            if (code == 0) {
+                eventBeanList.clear();
+                for (int i = 0; i < ja.length(); i++) {
+                    JSONObject jb = ja.getJSONObject(i);
+                    EventBean eventBean = new EventBean();
+                    eventBean.setId(jb.getInt("activityId"));
+                    eventBean.setName(jb.getString("activityName"));
+                    eventBean.setStartTime(jb.getString("activityTime").substring(0, jb.getString("activityTime").indexOf("-")).trim());
+                    eventBean.setEndTime(jb.getString("activityTime").substring(jb.getString("activityTime").indexOf("-") + 1));
+                    eventBean.setWhere(jb.getString("address"));
+                    eventBean.setImgUri("activityImageurl");
+                    eventBean.setNote(jb.getString("introduction"));
+
+//                eventBean.setOrganizerId(0);
+                    eventBean.setOrganizerName(jb.getString("createrName"));
+                    eventBean.setOrganizerHeader(jb.getString("createrImageurl"));
+                    eventBean.setOrganizerNote(jb.getString("createrSignature"));
+                    eventBean.setOrganizerTel(jb.getString("createrPhone"));
+
+                    eventBean.setPersonCount(jb.getInt("peopleNumber"));
+                    eventBeanList.add(eventBean);
+                }
+            }
+            return code;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
 //    搜索活动
     public static int searchActivity(String args, boolean isInt){
-        String url_int = String.format("http://120.79.137.167:8080/firstProject/search.do?activityId=%d", args);
-        String url_str = String.format("http://120.79.137.167:8080/firstProject/search.do?activityName=%s", args);
+        String url_int = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityId=%d", args);
+        String url_str = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityName=%s", args);
 
         Request.Builder builder = new Request.Builder();
         if (isInt) {
@@ -181,21 +236,39 @@ public class AsHttpUtils {
             builder.url(url_str);
         }
         Request request = builder.build();
-
-
         try {
             Response response = client.newCall(request).execute();
             JSONObject jsonObject = new JSONObject(response.body().string());
             int code = jsonObject.getInt("status");
 
+            JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
+            mySearchList.clear();
+            for (int i = 0; i< ja.length(); i++){
+                JSONObject jb = ja.getJSONObject(i);
+                EventBean eventBean = new EventBean();
+                eventBean.setId(jb.getInt("activityId"));
+                eventBean.setName(jb.getString("activityName"));
+                eventBean.setStartTime(jb.getString("activityTime").substring(0, jb.getString("activityTime").indexOf("-")).trim());
+                eventBean.setEndTime(jb.getString("activityTime").substring(jb.getString("activityTime").indexOf("-") + 1 ));
+                eventBean.setWhere(jb.getString("address"));
+                eventBean.setImgUri("activityImageurl");
+                eventBean.setNote(jb.getString("introduction"));
 
+//                eventBean.setOrganizerId(0);
+                eventBean.setOrganizerName(jb.getString("createrName"));
+                eventBean.setOrganizerHeader(jb.getString("createrImageurl"));
+                eventBean.setOrganizerNote(jb.getString("createrSignature"));
+                eventBean.setOrganizerTel(jb.getString("createrPhone"));
 
+                eventBean.setPersonCount(jb.getInt("peopleNumber"));
+                mySearchList.add(eventBean);
+            }
+            return code;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 1;
     }
-
 
 
 }
