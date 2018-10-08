@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ep.eventparticipant.other.AsHttpUtils;
-import com.ep.eventparticipant.other.MD5Utils;
 import com.ep.eventparticipant.R;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -136,11 +135,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return has_userName;
     }
-    private void saveRegisterInfo(String userName,String psw){
+  /*  private void saveRegisterInfo(String userName,String psw){
         String md5Psw = MD5Utils.md5(psw);
         SharedPreferences sp=getSharedPreferences("loginInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor=sp.edit();
         editor.putString(userName, md5Psw);
         editor.commit();
-    }
+    }*/
 }

@@ -67,8 +67,6 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
         }
 
         init();
-
-
     }
 
     void init() {
@@ -125,6 +123,23 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                 String endTime = textEnd.getText().toString();
                 String where = editWhere.getText().toString();
                 String note = editNote.getText().toString();
+
+                if("".equals(name)){
+                    Toast.makeText(this, "请输入活动名称！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if("".equals(startTime)){
+                    Toast.makeText(this, "请输入开始时间！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if("".equals(endTime)){
+                    Toast.makeText(this, "请输入结束时间！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if("".equals(where)){
+                    Toast.makeText(this, "请输入活动地点！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if("".equals(note)) {
+                    Toast.makeText(this, "请补充活动内容！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 new Thread(new Runnable() {
                     @Override

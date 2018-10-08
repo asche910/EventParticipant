@@ -1,6 +1,7 @@
 package com.ep.eventparticipant.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -150,9 +151,15 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "请勿重复报名！", Toast.LENGTH_SHORT).show();
                 }
 
+                btnJoin.setText("已报名！");
+
                 break;
             case R.id.event_btn_share:
-                Toast.makeText(this, "正在分享中......", Toast.LENGTH_SHORT).show();
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "赶快来参加活动‘" + eventBean.getName() + "’吧! Id: " + eventBean.getId() + "(EventParticipant App)");
+                startActivity(Intent.createChooser(shareIntent, "share"));
+//                Toast.makeText(this, "正在分享中......", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.event_btn_back:
                 finish();

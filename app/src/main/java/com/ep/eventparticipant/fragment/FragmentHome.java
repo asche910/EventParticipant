@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,6 +53,7 @@ import okhttp3.OkHttpClient;
 import static android.support.constraint.Constraints.TAG;
 import static com.ep.eventparticipant.activity.MainActivity.getRandomId;
 import static com.ep.eventparticipant.activity.MainActivity.resourceIdToUri;
+import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
 import static com.zhihu.matisse.internal.utils.PathUtils.getDataColumn;
 import static com.zhihu.matisse.internal.utils.PathUtils.isDownloadsDocument;
 import static com.zhihu.matisse.internal.utils.PathUtils.isExternalStorageDocument;
@@ -102,6 +104,9 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     public static final int CREATED_LIST = 1;
     public static final int JOINED_LIST = 2;
     public static final int SEARCH_LIST = 3;
+
+    // 服务器上所有活动列表
+    public static List<EventBean> tempList = new ArrayList<>();
 
     //判断标题输入内容
     boolean isNum;
@@ -169,6 +174,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+
         homeSuggestAdapter.setOnClickListener(new HomeSuggestAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
@@ -185,16 +191,17 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Toast.makeText(getContext(), "获得了焦点！", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "获得了焦点！", Toast.LENGTH_SHORT).show();
                     isEditFocus = true;
                 } else {
-                    Toast.makeText(getContext(), "失去了焦点！", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "失去了焦点！", Toast.LENGTH_SHORT).show();
                     isEditFocus = false;
                     textTitle.setVisibility(View.VISIBLE);
                     editTitle.setVisibility(View.GONE);
                 }
             }
         });
+
 
     }
 
@@ -255,9 +262,15 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         myCreatedList.remove(3);
         myCreatedList.remove(2);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tempList = AsHttpUtils.allActivity();
+            }
+        }).start();
+
         myJoinedList.addAll(eventBeanList);
         myJoinedList.remove(3);
-
 
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -275,6 +288,14 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fab_stable_created:
             case R.id.fab_scroll_created:
+
+                for(EventBean eventBean: tempList){
+                    if (eventBean.getOrganizerId() == curUser.getId())
+                        myCreatedList.add(eventBean);
+                }
+                Log.e(TAG, "run: my after size -------------------------------->" + myCreatedList.size() );
+                Log.e(TAG, "run: size -------------------------------->" + tempList.size() );
+
                 Intent intent_1 = new Intent(getContext(), EventResultActivity.class);
                 intent_1.putExtra("ListType", CREATED_LIST);
                 startActivity(intent_1);
@@ -298,7 +319,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                         Toast.makeText(MyApplication.getContext(), "请输入要搜索的内容！", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        Toast.makeText(getContext(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
 
                         try {
                             Integer.parseInt(editTitle.getText().toString());
@@ -320,11 +342,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
                         Intent intent_3 = new Intent(getContext(), EventResultActivity.class);
                         intent_3.putExtra("ListType", SEARCH_LIST);
                         startActivity(intent_3);

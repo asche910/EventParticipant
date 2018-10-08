@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ep.eventparticipant.other.AsHttpUtils;
-import com.ep.eventparticipant.other.MD5Utils;
 import com.ep.eventparticipant.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.WHITE);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-
 //        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //        startActivity(intent);
 
@@ -56,8 +54,10 @@ public class LoginActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
+                Toast.makeText(LoginActivity.this, "暂时关闭游客模式！", Toast.LENGTH_SHORT).show();
+
+               /* Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);*/
             }
         });
         tv_main_title=findViewById(R.id.tv_main_title);
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_find_psw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(LoginActivity.this, "该功能暂未开放！", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -115,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                String md5Psw= MD5Utils.md5(psw);
 
 //                spPsw=readPsw(userName);
                 if(TextUtils.isEmpty(userName)){
@@ -134,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     return;
-                }else if((spPsw!=null&&!TextUtils.isEmpty(spPsw)&&!md5Psw.equals(spPsw))){
+                }else if((spPsw!=null&&!TextUtils.isEmpty(spPsw))){
                     Toast.makeText(LoginActivity.this, "输入的用户名和密码不一致", Toast.LENGTH_SHORT).show();
                     return;
                 }else{
@@ -145,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private String readPsw(String userName){
-
         SharedPreferences sp=getSharedPreferences("loginInfo", MODE_PRIVATE);
         return sp.getString(userName , "");
     }
@@ -159,8 +157,8 @@ public class LoginActivity extends AppCompatActivity {
 
         editor.commit();
     }
-    @Override
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null){
@@ -171,8 +169,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
     private  void getPermissions(){
         boolean isAllGranted = checkAllPermission();

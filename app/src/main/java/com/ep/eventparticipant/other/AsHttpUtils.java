@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -196,8 +198,9 @@ public class AsHttpUtils {
         return 1;
     }
 
-//    活动列表
-    public static int allActivity(){
+    //    活动列表
+    public static List<EventBean> allActivity(){
+        List<EventBean> events = new ArrayList<>();
         Request request = new Request.Builder()
                 .url("http://120.79.137.167:8080/firstProject/activity/List.do")
                 .header("Cookie", cookie)
@@ -206,16 +209,49 @@ public class AsHttpUtils {
             Response response = client.newCall(request).execute();
             JSONObject jsonObject = new JSONObject(response.body().string());
             int code = jsonObject.getInt("status");
+            int pages = jsonObject.getJSONObject("data").getInt("pages");
+            if (code == 0){
+                for(int i = 1; i <= pages; i++){
+                    events.addAll(allActivity(i));
+                }
+            }
+            return events;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+//    活动列表(内部方法)
+    private static List<EventBean> allActivity(int  page){
+        Request request = new Request.Builder()
+                .url("http://120.79.137.167:8080/firstProject/activity/List.do?pageNum=" + page)
+                .header("Cookie", cookie)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            JSONObject jsonObject = new JSONObject(response.body().string());
+            int code = jsonObject.getInt("status");
             JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
             if (code == 0) {
-                eventBeanList.clear();
+                List<EventBean> allEvents = new ArrayList<>();
+//                eventBeanList.clear();
+                Log.e(TAG, "run: ja size -------------------------------->" + ja.length() );
+
                 for (int i = 0; i < ja.length(); i++) {
                     JSONObject jb = ja.getJSONObject(i);
                     EventBean eventBean = new EventBean();
                     eventBean.setId(jb.getInt("activityId"));
                     eventBean.setName(jb.getString("activityName"));
-                    eventBean.setStartTime(jb.getString("activityTime").substring(0, jb.getString("activityTime").indexOf("-")).trim());
-                    eventBean.setEndTime(jb.getString("activityTime").substring(jb.getString("activityTime").indexOf("-") + 1));
+
+                    try {
+                        eventBean.setStartTime(jb.getString("activityTime").substring(0, jb.getString("activityTime").indexOf("-")).trim());
+                        eventBean.setEndTime(jb.getString("activityTime").substring(jb.getString("activityTime").indexOf("-") + 1));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "allActivity: illegal time!" );
+                    }
+
                     eventBean.setWhere(jb.getString("address"));
                     eventBean.setImgUri(jb.getString("activityImageurl").replaceAll("\\\\", ""));
                     eventBean.setNote(jb.getString("introduction"));
@@ -227,14 +263,16 @@ public class AsHttpUtils {
                     eventBean.setOrganizerTel(jb.getString("createrPhone"));
 
                     eventBean.setPersonCount(jb.getInt("peopleNumber"));
-                    eventBeanList.add(eventBean);
+
+                    allEvents.add(eventBean);
                 }
+                Log.e(TAG, "allActivity:  allEvents.size() = " + allEvents.size() );
+                return allEvents;
             }
-            return code;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 1;
+        return null;
     }
 
 //    搜索活动
@@ -290,6 +328,4 @@ public class AsHttpUtils {
         }
         return 1;
     }
-
-
 }
