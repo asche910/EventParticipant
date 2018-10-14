@@ -6,14 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.FindThing">
-    <scut.carson_ho.searchview.SearchView
-        android:id="@+id/searchview"
-        app:textSizeSearch="5dp"
-        app:textColorSearch="#3F51B5"
-        app:textHintSearch="输入查询关键字"
-        app:searchBlockHeight="150"
-        app:searchBlockColor="#ffffff"
+   <SearchView
+
+       android:id="@+id/searchview"
+       android:queryHint="输入关键字"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+   </SearchView>
+  <ListView
+      android:id="@+id/find_listview"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+  </ListView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/find_recyclerview"
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </scut.carson_ho.searchview.SearchView>
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+
 </LinearLayout>

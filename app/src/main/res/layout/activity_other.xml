@@ -10,7 +10,6 @@
     android:scaleType="fitXY"
     android:id="@+id/image_view_2"
     android:transitionName="sharedView"
-    android:src="@drawable/tu_6"
     android:layout_width="match_parent"
     android:layout_height="200dp" />
     <RelativeLayout
@@ -68,13 +67,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/wupinmiaoshu"
         android:textSize="15sp"
         android:text="非常好用"
         android:paddingLeft="10dp"
         android:layout_marginTop="20dp"
         android:textColor="#1dc1c6"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="60dp" />
+    <ImageView
+        android:background="#a6d1c4c4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+    <TextView
+
+        android:text="估价:"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/gujia"
+            android:text="200"
+            android:textSize="20sp"
+            android:textColor="#1dc1c6"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     <ImageView
         android:background="#a6d1c4c4"
         android:layout_width="match_parent"
@@ -89,6 +112,7 @@
         android:layout_width="100dp"
         android:layout_height="40dp" />
         <TextView
+            android:id="@+id/lianxifangsi"
             android:text="10086"
             android:textColor="#1dc1c6"
             android:layout_marginLeft="100dp"

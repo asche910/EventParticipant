@@ -1,5 +1,6 @@
 package com.ep.eventparticipant.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
@@ -66,6 +68,8 @@ public class FragmentUser extends Fragment {
 
     public static User curUser = new User();
 
+
+    @Nullable
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         User user = new User();
@@ -224,7 +228,7 @@ public class FragmentUser extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        String imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
+        @SuppressLint({"NewApi", "LocalSuppress"}) String imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
         //第三步:将String保持至SharedPreferences
         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences("testSP", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -256,7 +260,7 @@ public class FragmentUser extends Fragment {
         //第一步:取出字符串形式的Bitmap
         String imageString=sharedPreferences.getString("image", "");
         //第二步:利用Base64将字符串转换为ByteArrayInputStream
-        byte[] byteArray= Base64.decode(imageString, Base64.DEFAULT);
+        @SuppressLint({"NewApi", "LocalSuppress"}) byte[] byteArray= Base64.decode(imageString, Base64.DEFAULT);
         if(byteArray.length==0){
             touxiang.setImageResource(R.drawable.touxiang);
         }else{

@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,14 +39,16 @@ import java.util.List;
 
 public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ViewHolder> {
     private List<Exchangeitem> exchangeitemList;
+
     private Bitmap bitmap;
     private Context context;
     static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView thing;
+        ImageView thing;CardView cardView;
         TextView information;
         Button button;
         public ViewHolder (View view){
             super(view);
+            cardView=(CardView)view;
             thing=(ImageView)view.findViewById(R.id.item_view);
             information=(TextView)view.findViewById(R.id.item_text);
             button=(Button)view.findViewById(R.id.item_button);
@@ -63,14 +66,7 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ViewHo
         if (context==null){
             context=parent.getContext();
         }
-        holder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent("tuao");
-                MyApplication.getContext().sendBroadcast(intent);
 
-            }
-        });
 
         return holder;
     }
@@ -78,7 +74,11 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Exchangeitem exchangeitem=exchangeitemList.get(position);
-        Glide.with(context).load(exchangeitem.getID()).into(holder.thing);
+        if (exchangeitem.getUrl()!=null){
+        Glide.with(context).load(exchangeitem.getUrl()).into(holder.thing);}
+        else{
+            Glide.with(context).load(exchangeitem.getID()).into(holder.thing);
+        }
         //holder.thing.setImageBitmap(returnBitMap(exchangeitem.getUrl()));
         holder.information.setText(exchangeitem.getStoptime());
         holder.thing.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,15 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ViewHo
                         ActivityOptions.makeSceneTransitionAnimation((Activity)v.getContext(),v,"sharedView").toBundle());
             }
         });
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent("tuao");
+                intent.putExtra("tupian",position);
+                v.getContext().sendBroadcast(intent);
 
+            }
+        });
     }
 
     @Override

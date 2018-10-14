@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/all_imageview"
+        android:src="@drawable/tu10"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp" />
+   <LinearLayout
+
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <TextView
+           android:text="(详情)"
+           android:id="@+id/xiangqin"
+          android:layout_marginLeft="20dp"
+           android:textColor="#1b76d8"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/all_text_view"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+   </LinearLayout>
+</LinearLayout>

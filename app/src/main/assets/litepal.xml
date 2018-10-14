@@ -2,11 +2,14 @@
 <litepal>
 
     <dbname value="MyData" ></dbname>
+    <dbname value="Exchange" ></dbname>
 
     <version value="1"></version>
 
     <list>
         <mapping class="com.ep.eventparticipant.object.EventBean"></mapping>
 
+       <mapping class="com.ep.eventparticipant.been.Information"></mapping>
     </list>
+
 </litepal>
