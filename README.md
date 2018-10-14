@@ -6,7 +6,7 @@
 
 ### 登录页面
 
-https://github.com/apknet/EventParticipant/blob/master/screenshots/Screenshot_20181014-151746.jpg
+![image](https://github.com/apknet/EventParticipant/blob/master/screenshots/Screenshot_20181014-151746.jpg)
 
 ### 主页（活动页面）
 
