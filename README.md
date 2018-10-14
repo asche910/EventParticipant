@@ -1,6 +1,7 @@
 # EventParticipant
 
 * 一款支持 发布活动 & 物物交换 的App
+* 可点击[下载](https://github.com/apknet/EventParticipant/raw/master/app-debug.apk)Demo 
 
 ## 效果图如下：
 
