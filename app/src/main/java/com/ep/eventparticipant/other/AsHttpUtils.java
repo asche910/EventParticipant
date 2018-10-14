@@ -2,16 +2,20 @@ package com.ep.eventparticipant.other;
 
 import android.util.Log;
 
+import com.ep.eventparticipant.Item.All_item;
+import com.ep.eventparticipant.Item.Exchangeitem;
 import com.ep.eventparticipant.object.EventBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.tablemanager.Generator;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -23,6 +27,7 @@ import okhttp3.Response;
 import static android.support.constraint.Constraints.TAG;
 import static com.ep.eventparticipant.fragment.FragmentHome.eventBeanList;
 import static com.ep.eventparticipant.fragment.FragmentHome.mySearchList;
+import static com.ep.eventparticipant.fragment.FragmentSwap.exchangeitemList;
 import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
 
 /**
@@ -38,6 +43,8 @@ import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
 public class AsHttpUtils {
     private static   OkHttpClient client = new OkHttpClient();
     private static String cookie;
+    public static List<All_item> all_items=new ArrayList<>();
+
 
     public static int login(String user, String pass){
         String url = String.format("http://120.79.137.167:8080/firstProject/user/login.do?userName=%s&password=%s", user, pass);
@@ -332,4 +339,108 @@ public class AsHttpUtils {
         }
         return 1;
     }
+
+    /**
+     * ------------------------------------------>>>  分割线！
+     */
+
+
+    public static int ExchangeList(){
+        Request request=new Request.Builder().url("http://120.79.137.167:8080/firstProject/exchange/list.do").header("Cookie", cookie).build();
+        try {
+            Response response=client.newCall(request).execute();
+            //JSONObject jsonObject=new JSONObject(response.body().string());
+            JSONArray jsonArray=new JSONArray(response.body().string());
+            int code=jsonArray.getJSONObject(0).getInt("status");
+            JSONArray js=jsonArray.getJSONArray(1);
+            JSONArray ja=js.getJSONArray(8);
+            //int code=jsonObject.getInt("status");
+            //JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
+            if(code==0){
+                exchangeitemList.clear();
+                for(int i=0;i<ja.length();i++){
+                    JSONObject object=ja.getJSONObject(i);
+                    String imageUrl=null;
+                    imageUrl=  object.getString("imageUrl");
+
+                    String name=object.getString("name");
+                    String time=object.getString("time");
+                    // String address="武汉科技大学";
+                    String address=object.getString("address");
+                    String phone=object.getString("phone");
+                    String expect=object.getString("expect");
+                    int price=100;
+                    //int price=object.getInt("price");
+                    Random random=new Random();
+                    int userID=random.nextInt();
+                    Exchangeitem exchangeitem=new Exchangeitem(time,name,imageUrl,address,price,phone,String.valueOf(userID),expect);
+                    exchangeitemList.add(exchangeitem);
+                }
+                return code;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    // 搜索交换
+    public static int searchExchange(String args, boolean isInt){
+        String url_int = String.format("http://120.79.137.167:8080/firstProject/exchange/selectLike.do?name=%s", args);
+        String url_str = String.format("http://120.79.137.167:8080/firstProject/exchange/selectLike.do?name=%s", args);
+
+        Request.Builder builder = new Request.Builder();
+        if (isInt) {
+            builder.url(url_int);
+        }else{
+            builder.url(url_str);
+        }
+        Request request = builder.header("Cookie", cookie).build();
+        try {
+            Response response = client.newCall(request).execute();
+            // JSONObject jsonObject = new JSONObject(response.body().string());
+            String result = response.body().string();
+            Log.e(Generator.TAG, "searchExchange: " + result );
+            JSONArray jsonArray=new JSONArray(result);
+            int code = jsonArray.getJSONObject(0).getInt("status");
+
+            //JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
+            JSONArray ja=jsonArray.getJSONArray(1);
+            JSONArray jb=ja.getJSONArray(8);
+            all_items.clear();
+            if(jb==null) return 1;
+            for (int i = 0; i< jb.length(); i++){
+                JSONObject jc = ja.getJSONObject(i);
+                All_item all_item=new All_item();
+                all_item.setAddress(jc.getString("address"));
+                all_item.setExpect(jc.getString("expect"));
+                all_item.setImageurl(jc.getString("imageurl"));
+                all_item.setName(jc.getString("name"));
+                all_item.setPrice(jc.getInt("price"));
+                all_item.setTime(jc.getString("time"));
+                all_items.add(all_item);
+
+            }
+            return code;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+    public static int createExchange(String name, String time, String place, String expect, String price,String url1) {
+        String url = String.format("http://120.79.137.167:8080/firstProject/exchange/upload_exchange.do?name=%s&time=%s&address=%s&expect=%s&price=%s&imageurl=%s", name,time,place,expect,price,url1);
+
+        Request request = new Request.Builder().url(url).header("Cookie", cookie).build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            int code = new JSONObject(response.body().string()).getInt("status");
+            return code;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
 }

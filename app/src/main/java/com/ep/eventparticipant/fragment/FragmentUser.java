@@ -20,19 +20,15 @@ import android.widget.TextView;
 
 import com.ep.eventparticipant.activity.EventNewActivity;
 import com.ep.eventparticipant.activity.EventResultActivity;
+import com.ep.eventparticipant.activity.ExchangeInformation;
 import com.ep.eventparticipant.object.User;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.activity.Personal_information;
 import com.ep.eventparticipant.R;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.ep.eventparticipant.activity.Personal_information;
-import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.activity.exchangein;
 import com.ep.eventparticipant.activity.exchangeout;
-import com.ep.eventparticipant.object.User;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,7 +39,6 @@ import java.util.Map;
 
 import okhttp3.Request;
 
-import static com.ep.eventparticipant.fragment.FragmentHome.CREATED_LIST;
 import static com.ep.eventparticipant.fragment.FragmentHome.JOINED_LIST;
 
 public class FragmentUser extends Fragment {
@@ -72,11 +67,11 @@ public class FragmentUser extends Fragment {
     @Nullable
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        User user = new User();
+//        User curUser = new User();
         View view = inflater.from(container.getContext()).inflate(R.layout.fragment_user, container, false);
         touxiang = (de.hdodenhof.circleimageview.CircleImageView)view.findViewById(R.id.touxiang);
         Name = (TextView)view.findViewById(R.id.Name);
-        Name.setText(user.getName());
+        Name.setText(curUser.getName());
         Name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +82,7 @@ public class FragmentUser extends Fragment {
         });
         //个性签名
         Signature = (TextView)view.findViewById(R.id.Signature);
-        Signature.setText(user.getSignature());
+        Signature.setText(curUser.getSignature());
         Signature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +93,7 @@ public class FragmentUser extends Fragment {
         });
         //手机号
         Phone = (TextView)view.findViewById(R.id.Phone);
-        Phone.setText(user.getPhone());
+        Phone.setText(curUser.getPhone());
         Phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +134,8 @@ public class FragmentUser extends Fragment {
         information.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), ExchangeInformation.class);
+                startActivity(intent);
             }
         });
         //我参与的

@@ -22,7 +22,7 @@ import com.ep.eventparticipant.fragment.FragmentSwap;
 import com.ep.eventparticipant.fragment.PhoneFragment;
 import com.ep.eventparticipant.fragment.digitalFragment;
 import com.ep.eventparticipant.fragment.furnitureFragment;
-import com.ep.eventparticipant.others.AsHttpUtils;
+import com.ep.eventparticipant.other.AsHttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +96,7 @@ public class FindThing extends AppCompatActivity  implements android.widget.Sear
                 public void run() {
                     code = AsHttpUtils.searchExchange(query, false);
                     if (code != 0) {
-                        Toast.makeText(FindThing.this, "未搜索到想换物品", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(FindThing.this, "未搜索到想换物品", Toast.LENGTH_LONG).show();
 
                     }
                 }

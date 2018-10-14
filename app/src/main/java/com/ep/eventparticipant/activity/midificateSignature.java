@@ -10,11 +10,13 @@ import android.widget.TextView;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.object.User;
 
+import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
+
 public class midificateSignature extends AppCompatActivity {
     private Button return_;
     private EditText Signature;
     private TextView finish;
-    User user = new User();
+//    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +29,7 @@ public class midificateSignature extends AppCompatActivity {
             }
         });
         Signature =  findViewById(R.id.modificate_Signature);
-        Signature.setText(user.getSignature());
+        Signature.setText(curUser.getSignature());
 
         finish = findViewById(R.id.finish);
         finish.setOnClickListener(new View.OnClickListener() {

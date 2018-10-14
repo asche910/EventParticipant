@@ -34,6 +34,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
+
 public class Personal_information extends AppCompatActivity {
     private ImageView touxiang;
     private Button return_;
@@ -45,7 +47,7 @@ public class Personal_information extends AppCompatActivity {
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
     private  File tempFile;
-    User user = new User();
+//    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,10 @@ public class Personal_information extends AppCompatActivity {
         Phone =(TextView)findViewById(R.id.Phone);
         Signature = (TextView)findViewById(R.id.Signature);
         initView();
+
+        Name.setText(curUser.getName());
+        Phone.setText(curUser.getPhone());
+        Signature.setText(curUser.getSignature());
     }
     private void sendRequestWithOkHttp(){
         new Thread(new Runnable() {
@@ -106,11 +112,11 @@ public class Personal_information extends AppCompatActivity {
             }
         });
 
-        Phone.setText(user.getPhone());
+        Phone.setText(curUser.getPhone());
         Phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Phone.setText(user.getPhone());
+                Phone.setText(curUser.getPhone());
             }
         });
 

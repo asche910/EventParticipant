@@ -10,11 +10,13 @@ import android.widget.TextView;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.object.User;
 
+import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
+
 public class modification extends AppCompatActivity {
     private Button return_;
     private EditText Name;
     private TextView finish;
-    User user = new User();
+//    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,7 @@ public class modification extends AppCompatActivity {
             }
         });
         Name =  findViewById(R.id.modificate_name);
-        Name.setText(user.getName());
+        Name.setText(curUser.getName());
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

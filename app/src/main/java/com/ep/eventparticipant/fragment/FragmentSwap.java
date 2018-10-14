@@ -38,7 +38,7 @@ import com.ep.eventparticipant.activity.FindThing;
 import com.ep.eventparticipant.activity.PublishActivity;
 import com.ep.eventparticipant.adapter.ExchangeAdapter;
 import com.ep.eventparticipant.other.GlideImageLoader;
-import com.ep.eventparticipant.others.AsHttpUtils;
+import com.ep.eventparticipant.other.AsHttpUtils;
 
 
 import com.youth.banner.Banner;
@@ -57,25 +57,25 @@ import static com.ep.eventparticipant.activity.ExchangeInformation.informention_
 
 
 public class FragmentSwap extends Fragment {
-private View view;
+    private View view;
 
-private EditText editText;
-private Banner banner;
-private List<Integer> imgs=new ArrayList<>();
-private List<String> title=new ArrayList<>();
-public static List<Exchangeitem> exchangeitemList=new ArrayList<>();
-private static int i;
-private IntentFilter intentFilter;
-private Recieveboaster recieveboaster;
-private Window window;
-private ImageView saoma;
+    private EditText editText;
+    private Banner banner;
+    private List<Integer> imgs = new ArrayList<>();
+    private List<String> title = new ArrayList<>();
+    public static List<Exchangeitem> exchangeitemList = new ArrayList<>();
+    private static int i;
+    private IntentFilter intentFilter;
+    private Recieveboaster recieveboaster;
+    private Window window;
+    private ImageView saoma;
     private static final int REQ_CODE_PERMISSION = 0x1111;
-    private Handler handler=new Handler();
+    private Handler handler = new Handler();
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.swapmenu,menu);
+        inflater.inflate(R.menu.swapmenu, menu);
     }
 
     @Nullable
@@ -95,45 +95,44 @@ private ImageView saoma;
         });
         initdraw();
 
-LitePal.getDatabase();
+        LitePal.getDatabase();
 
-saoma=view.findViewById(R.id.saoma);
-saoma.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        // Open Scan Activity
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Do not have the permission of camera, request it.
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},REQ_CODE_PERMISSION);
-        } else {
-            // Have gotten the permission
-            startCaptureActivityForResult();
-        }
-
-
-    }
-});
+        saoma = view.findViewById(R.id.saoma);
+        saoma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open Scan Activity
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // Do not have the permission of camera, request it.
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQ_CODE_PERMISSION);
+                } else {
+                    // Have gotten the permission
+                    startCaptureActivityForResult();
+                }
 
 
-new Thread(new Runnable() {
-    int code;
-    @Override
-    public void run() {
-       code=AsHttpUtils.ExchangeList();
-        Log.d("Tag",String.valueOf(code));
-
-    }
-}).start();
+            }
+        });
 
 
+        new Thread(new Runnable() {
+            int code;
+
+            @Override
+            public void run() {
+                code = AsHttpUtils.ExchangeList();
+                Log.d("Tag", String.valueOf(code));
+
+            }
+        }).start();
 
 
-        intentFilter=new IntentFilter();
+        intentFilter = new IntentFilter();
         intentFilter.addAction("tuao");
-        recieveboaster=new Recieveboaster();
-        getActivity().registerReceiver(recieveboaster,intentFilter);
+        recieveboaster = new Recieveboaster();
+        getActivity().registerReceiver(recieveboaster, intentFilter);
 
-        banner=view.findViewById(R.id.scan);
+        banner = view.findViewById(R.id.scan);
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
         banner.setImageLoader(new GlideImageLoader());
         banner.setImages(imgs);
@@ -143,7 +142,7 @@ new Thread(new Runnable() {
         banner.setDelayTime(2000);
         banner.setIndicatorGravity(BannerConfig.CENTER);
         banner.start();
-window=getActivity().getWindow();
+        window = getActivity().getWindow();
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 //                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -154,66 +153,69 @@ window=getActivity().getWindow();
 //            window.setStatusBarColor(Color.TRANSPARENT);   //这里动态修改颜色
 //        }
 
-ImageView all=view.findViewById(R.id.yijiaohuan);
-all.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(getActivity(), AllActivity.class);
-        startActivity(intent);
-    }
-});
-
+        ImageView all = view.findViewById(R.id.yijiaohuan);
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AllActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         return view;
     }
-    private static String [] text = new String[]{"发布我的物品","2222222","3333333"
+
+    private static String[] text = new String[]{"发布我的物品", "2222222", "3333333"
 
     };
     private static int index = 0;
+
     static String getext() {
         if (index >= text.length) index = 0;
         return text[index++];
 
     }
+
     private static int imageResourceIndex = 0;
 
     static int getImageResource() {
         if (imageResourceIndex >= imageResources.length) imageResourceIndex = 0;
         return imageResources[imageResourceIndex++];
     }
-    private static int[] imageResources=new int[]{R.drawable.ic_storage_black_24dp,R.drawable.ic_terrain_black_24dp};
+
+    private static int[] imageResources = new int[]{R.drawable.ic_storage_black_24dp, R.drawable.ic_terrain_black_24dp};
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initview();
         //ImageView image_View=(view).findViewById(R.id.xuanku);
-       // Glide.with(getContext()).load(R.drawable.tu_8).into(image_View);
+        // Glide.with(getContext()).load(R.drawable.tu_8).into(image_View);
         //sendRequestWithOkHttp();
-        RecyclerView recyclerView=(view).findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        RecyclerView recyclerView = (view).findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        ExchangeAdapter adapter=new ExchangeAdapter(exchangeitemList);
+        ExchangeAdapter adapter = new ExchangeAdapter(exchangeitemList);
         recyclerView.setAdapter(adapter);
-        ImageView fabiao=(view).findViewById(R.id.fabiao);
+        ImageView fabiao = (view).findViewById(R.id.fabiao);
         fabiao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),PublishActivity.class);
+                Intent intent = new Intent(getActivity(), PublishActivity.class);
                 startActivity(intent);
             }
         });
 
-ImageView imageView=(view).findViewById(R.id.jiaohuanxinxi);
-imageView.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(getActivity(), ExchangeInformation.class);
-        startActivity(intent);
-    }
-});
+        ImageView imageView = (view).findViewById(R.id.jiaohuanxinxi);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ExchangeInformation.class);
+                startActivity(intent);
+            }
+        });
 
 
 //发送网络请求
@@ -232,57 +234,60 @@ imageView.setOnClickListener(new View.OnClickListener() {
 //        });
 
 
-
     }
-    private void parseJSONWithJsonObject(String jsonData){////*****
+
+    private void parseJSONWithJsonObject(String jsonData) {////*****
         try {
 //            JSONArray jsonArray=new JSONArray(jsonData);
             //for(int i=0;i<jsonArray.length();i++){
-              //  JSONObject jsonObject=jsonArray.getJSONObject(i);
-            JSONObject jsonObject=new JSONObject(jsonData);
-                String imageUrl=null;
-          imageUrl=  jsonObject.getString("imageUrl");
+            //  JSONObject jsonObject=jsonArray.getJSONObject(i);
+            JSONObject jsonObject = new JSONObject(jsonData);
+            String imageUrl = null;
+            imageUrl = jsonObject.getString("imageUrl");
 
-                String name=jsonObject.getString("name");
-               String time=jsonObject.getString("time");
-               // String address="武汉科技大学";
-                String address=jsonObject.getString("address");
-               // String phone=jsonObject.getString("phone");
-               String expect=jsonObject.getString("expect");
-               // int price=100;
-                int price=jsonObject.getInt("price");
-                exchangeitemList.add(new Exchangeitem(time,name,imageUrl,address,price,"110","21324",expect));
+            String name = jsonObject.getString("name");
+            String time = jsonObject.getString("time");
+            // String address="武汉科技大学";
+            String address = jsonObject.getString("address");
+            // String phone=jsonObject.getString("phone");
+            String expect = jsonObject.getString("expect");
+            // int price=100;
+            int price = jsonObject.getInt("price");
+            exchangeitemList.add(new Exchangeitem(time, name, imageUrl, address, price, "110", "21324", expect));
 
-          //  }
-        }catch (Exception e){
+            //  }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /*---- 后面要散的---*/
-    private void initview(){
-      exchangeitemList.add(new Exchangeitem("2018年5月20日","笔记本",R.drawable.tu8,"武汉科技大学",200,"10086","110","不建议使用"));
-            //exchangeitemList.add(new Exchangeitem("截止时间:\n2018/2/2","电脑","http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png","武科大",90,"10086","110","非常好用"));
-           // exchangeitemList.add(new Exchangeitem(R.drawable.tu9,"截止时间:\n 2019/11/23","一体机"));
-            //exchangeitemList.add(new Exchangeitem(R.drawable.tu10,"截止时间:\n 2020/3/13","小米MAX3"));
-        exchangeitemList.add(new Exchangeitem("2019年2月3日","一体机",R.drawable.tu9,"领航工作室",2000000,"10010","119","保证让你生不如死"));
-        exchangeitemList.add(new Exchangeitem("2020年9月1号","小米MAX3",R.drawable.tu10,"领航工作室",1500,"42052040086","120","别做梦了"));
+    private void initview() {
+        exchangeitemList.add(new Exchangeitem("2018年5月20日", "笔记本", R.drawable.tu8, "武汉科技大学", 200, "10086", "110", "不建议使用"));
+        //exchangeitemList.add(new Exchangeitem("截止时间:\n2018/2/2","电脑","http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png","武科大",90,"10086","110","非常好用"));
+        // exchangeitemList.add(new Exchangeitem(R.drawable.tu9,"截止时间:\n 2019/11/23","一体机"));
+        //exchangeitemList.add(new Exchangeitem(R.drawable.tu10,"截止时间:\n 2020/3/13","小米MAX3"));
+        exchangeitemList.add(new Exchangeitem("2019年2月3日", "一体机", R.drawable.tu9, "领航工作室", 2000000, "10010", "119", "保证让你生不如死"));
+        exchangeitemList.add(new Exchangeitem("2020年9月1号", "小米MAX3", R.drawable.tu10, "领航工作室", 1500, "42052040086", "120", "别做梦了"));
 
     }
-    private void initdraw(){
+
+    private void initdraw() {
 
 
-imgs.add(R.drawable.scanner_1);
-imgs.add(R.drawable.scanner_2);
-imgs.add(R.drawable.scanner_3);
-title.add("1");
-title.add("2");
-title.add("3");
+        imgs.add(R.drawable.scanner_1);
+        imgs.add(R.drawable.scanner_2);
+        imgs.add(R.drawable.scanner_3);
+        title.add("1");
+        title.add("2");
+        title.add("3");
     }
-   // private void initview(){
+    // private void initview(){
 
-   // }
+    // }
     private String reponsedata;
-//    private void sendRequestWithOkHttp(){
+
+    //    private void sendRequestWithOkHttp(){
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -303,7 +308,7 @@ title.add("3");
 //            }
 //        }).start();
 //    }
-  /*后面要改*/
+    /*后面要改*/
 //  private void parseJSONWithJSONObject(String jsonData){
 //        try{
 //            JSONArray jsonArray=new JSONArray(jsonData);
@@ -334,34 +339,35 @@ title.add("3");
 //
 //
 //}
-   public static class Recieveboaster extends BroadcastReceiver{
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(context);
-        builder.setTitle("确定进行交换?");
-        builder.setCancelable(false);
-        builder.setMessage("你将与他交换你的物品");
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(context,"交换申请中",Toast.LENGTH_SHORT).show();
-                int i=intent.getIntExtra("tupian",0);
-                int j=intent.getIntExtra("tupian2",-1);
+    public static class Recieveboaster extends BroadcastReceiver {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("确定进行交换?");
+            builder.setCancelable(false);
+            builder.setMessage("你将与他交换你的物品");
+            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(context, "交换申请中", Toast.LENGTH_SHORT).show();
+                    int i = intent.getIntExtra("tupian", 0);
+                    int j = intent.getIntExtra("tupian2", -1);
 
-                String name=exchangeitemList.get(i).getName();
-                //int ID=exchangeitemList.get(i).getID();
-                String url=exchangeitemList.get(i).getUrl();
-                String jiezishijian=exchangeitemList.get(i).getStoptime();
-                String place=exchangeitemList.get(i).getPlace();
-                int gujia=exchangeitemList.get(i).getGujia();
-                String phone=exchangeitemList.get(i).getPhone();
-                String userId=exchangeitemList.get(i).getUserID();
-                int ID=exchangeitemList.get(i).getID();
-                if(url!=null){
-                informention_itemList.add(new Informention_item(name,url,jiezishijian,place,userId,gujia));}
-                else{
-                   informention_itemList.add(new Informention_item(name,ID,jiezishijian,place,userId,gujia));
-                }}
+                    String name = exchangeitemList.get(i).getName();
+                    //int ID=exchangeitemList.get(i).getID();
+                    String url = exchangeitemList.get(i).getUrl();
+                    String jiezishijian = exchangeitemList.get(i).getStoptime();
+                    String place = exchangeitemList.get(i).getPlace();
+                    int gujia = exchangeitemList.get(i).getGujia();
+                    String phone = exchangeitemList.get(i).getPhone();
+                    String userId = exchangeitemList.get(i).getUserID();
+                    int ID = exchangeitemList.get(i).getID();
+                    if (url != null) {
+                        informention_itemList.add(new Informention_item(name, url, jiezishijian, place, userId, gujia));
+                    } else {
+                        informention_itemList.add(new Informention_item(name, ID, jiezishijian, place, userId, gujia));
+                    }
+                }
 
 //                Information information=new Information();
 //                if(url!=null){
@@ -386,21 +392,22 @@ title.add("3");
 //                }
                 //informention_itemList.add(new Informention_item("电脑包",exchangeitemList.get(intent.getIntExtra("tipian",0)).getID()));
 
-        });
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.show();
+            });
+            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.show();
+        }
     }
-}
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(recieveboaster);
     }
+
     private void startCaptureActivityForResult() {
         Intent intent = new Intent(getActivity(), CaptureActivity.class);
         Bundle bundle = new Bundle();
@@ -415,6 +422,7 @@ title.add("3");
 
         startActivityForResult(intent, CaptureActivity.REQ_CODE);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -422,14 +430,14 @@ title.add("3");
             case CaptureActivity.REQ_CODE:
                 switch (resultCode) {
                     case RESULT_OK:
-                        Toast.makeText(getContext(),data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT),Toast.LENGTH_SHORT).show();
-                       // tvResult.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));  //or do sth
+                        Toast.makeText(getContext(), data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT), Toast.LENGTH_SHORT).show();
+                        // tvResult.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));  //or do sth
 
                         break;
                     case RESULT_CANCELED:
                         if (data != null) {
                             // for some reason camera is not working correctly
-                           // tvResult.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
+                            // tvResult.setText(data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT));
                         }
                         break;
                 }
@@ -454,7 +462,6 @@ title.add("3");
             break;
         }
     }
-
 
 
 }

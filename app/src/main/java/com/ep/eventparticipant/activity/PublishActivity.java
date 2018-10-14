@@ -3,11 +3,10 @@ package com.ep.eventparticipant.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -16,31 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.ep.eventparticipant.R;
-import com.ep.eventparticipant.others.AsHttpUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.ep.eventparticipant.other.AsHttpUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
-import static com.ep.eventparticipant.others.AsHttpUtils.createExchange;
-import static com.ep.eventparticipant.others.AsHttpUtils.upImage;
 
 public class PublishActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView camera;

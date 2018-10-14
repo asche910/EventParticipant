@@ -50,7 +50,7 @@
             android:id="@+id/touxiang"
             android:layout_alignParentRight="true"
             android:scaleType="fitXY"
-            android:src="@drawable/touxiang"
+            android:background="@drawable/touxiang"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:layout_width="80dp"

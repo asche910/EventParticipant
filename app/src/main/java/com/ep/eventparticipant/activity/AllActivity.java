@@ -33,8 +33,8 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         digitaldimentia.setOnClickListener(this);
         phone.setOnClickListener(this);
         replaceFragment(new PhoneFragment());
-        ImageView imageView=(ImageView)findViewById(R.id.finish);
-        imageView.setOnClickListener(new View.OnClickListener() {
+        ImageView imgExit = findViewById(R.id.img_exit);
+        imgExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ep.eventparticipant.Item.Informention_item;
 import com.ep.eventparticipant.R;
-import com.ep.eventparticipant.others.HttpUtil;
 
 import java.io.IOException;
 import java.util.List;
