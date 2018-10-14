@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "输入的用户名和密码不一致", Toast.LENGTH_SHORT).show();
                     return;
                 }else{
-                    Toast.makeText(LoginActivity.this, "此用户名不存在", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "用户名不存在或密码错误！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -163,9 +163,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null){
             String userName=data.getStringExtra("userName");
+            String password = data.getStringExtra("password");
             if(!TextUtils.isEmpty(userName)){
                 et_user_name.setText(userName);
                 et_user_name.setSelection(userName.length());
+                et_psw.setText(password);
             }
         }
     }

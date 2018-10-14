@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ep.eventparticipant.activity.EventNewActivity;
+import com.ep.eventparticipant.activity.EventResultActivity;
 import com.ep.eventparticipant.object.User;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.activity.Personal_information;
@@ -38,6 +40,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Request;
+
+import static com.ep.eventparticipant.fragment.FragmentHome.CREATED_LIST;
+import static com.ep.eventparticipant.fragment.FragmentHome.JOINED_LIST;
 
 public class FragmentUser extends Fragment {
 
@@ -121,6 +126,8 @@ public class FragmentUser extends Fragment {
         issue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getContext(), EventNewActivity.class);
+                startActivity(intent);
             }
         });
         //交换信息
@@ -136,7 +143,9 @@ public class FragmentUser extends Fragment {
         participate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent_ = new Intent(getContext(), EventResultActivity.class);
+                intent_.putExtra("ListType", JOINED_LIST);
+                startActivity(intent_);
             }
         });
         getBitmapFromSharedPreferences();

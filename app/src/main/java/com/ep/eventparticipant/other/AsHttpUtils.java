@@ -79,6 +79,7 @@ public class AsHttpUtils {
     }
 
     public static int register(String name, String userName, String pass){
+        Log.e(TAG, "register: ---> name: "  + name + " userName: " + userName);
         String url = String.format("http://120.79.137.167:8080/firstProject/user/register.do?userName=%s&password=%s&name=%s",
                 userName, pass, name);
         Request request = new Request.Builder()
@@ -86,7 +87,10 @@ public class AsHttpUtils {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            int code = new JSONObject(response.body().toString()).getInt("status");
+            String result = response.body().string();
+            int code = new JSONObject(result).getInt("status");
+
+            Log.e(TAG, "register: ---> result:" + result);
             return code;
         } catch (Exception e) {
             e.printStackTrace();

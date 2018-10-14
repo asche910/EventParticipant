@@ -127,7 +127,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         viewPagerClass = getActivity().findViewById(R.id.viewpager_home);
         viewPagerClass.setViewPagerViews(viewList);
 
-
         scrollView = getActivity().findViewById(R.id.scrollView_home);
         fAM_stable = getActivity().findViewById(R.id.float_stable);
         fAM_scroll = getActivity().findViewById(R.id.float_scroll);
@@ -185,6 +184,19 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
             }
         });
 
+        for(int i = 0; i < viewList.size(); i++){
+            int finalI = i;
+            viewList.get(i).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), EventActivity.class);
+                    intent.putExtra("ListType", EVENT_LIST);
+                    intent.putExtra("Position", finalI % eventBeanList.size()) ;
+                    startActivity(intent);
+                }
+            });
+        }
+
         imgSearch.setOnClickListener(this);
 
         editTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -222,11 +234,11 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         ImageView img_5 = new ImageView(getContext());
         img_5.setBackgroundResource(R.drawable.bg_home_5);
 
-        viewList.add(img_1);
         viewList.add(img_2);
         viewList.add(img_3);
-        viewList.add(img_4);
+        viewList.add(img_1);
         viewList.add(img_5);
+        viewList.add(img_4);
 
         EventBean eventBean_1 = new EventBean(getRandomId(), "BIBF国际绘本展门票及会员卡",
                 "2018.7.25", "2018.07.30", "上海浦东", "北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心北京顺义京新国际展览中心",

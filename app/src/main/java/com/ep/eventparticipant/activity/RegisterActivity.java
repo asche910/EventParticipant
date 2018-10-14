@@ -82,11 +82,11 @@ public class RegisterActivity extends AppCompatActivity {
                 }else if(!psw.equals(pswAgain)){
                     Toast.makeText(RegisterActivity.this, "输入两次的密码不一样", Toast.LENGTH_SHORT).show();
                     return;
-
-                }/*else if(isExistUserName(userName)){
-                    Toast.makeText(RegisterActivity.this, "此账户名已经存在", Toast.LENGTH_SHORT).show();
+                }else if(psw.length() < 6){
+                    Toast.makeText(RegisterActivity.this, "密码至少6位长度", Toast.LENGTH_SHORT).show();
                     return;
-                }*/else{
+                }else{
+                    Toast.makeText(RegisterActivity.this, "注册中，请稍后！", Toast.LENGTH_SHORT).show();
 
                     Thread thread = new Thread(new Runnable() {
                         @Override
@@ -98,16 +98,22 @@ public class RegisterActivity extends AppCompatActivity {
                     });
                     thread.start();
                     try {
-                        thread.join(4000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+               /*     try {
+                        thread.join(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }*/
 
                     if (isSuccess) {
                         Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
 //                        saveRegisterInfo(userName, psw);
                         Intent data = new Intent();
                         data.putExtra("userName", userName);
+                        data.putExtra("password", psw);
                         setResult(RESULT_OK, data);
 
                         RegisterActivity.this.finish();

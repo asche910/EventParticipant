@@ -35,7 +35,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.MainActivity"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
+            />
         <activity android:name=".activity.EventActivity"/>
         <activity android:name=".activity.EventNewActivity"/>
         <activity android:name=".activity.EventResultActivity"/>
