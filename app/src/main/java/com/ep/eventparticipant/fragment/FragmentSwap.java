@@ -72,6 +72,8 @@ public class FragmentSwap extends Fragment {
     private static final int REQ_CODE_PERMISSION = 0x1111;
     private Handler handler = new Handler();
 
+    private ExchangeAdapter adapter;
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -82,7 +84,23 @@ public class FragmentSwap extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.from(getContext()).inflate(R.layout.fragment_swap, container, false);
+
+
         exchangeitemList.clear();
+
+
+        new Thread(new Runnable() {
+            int code;
+
+            @Override
+            public void run() {
+                code = AsHttpUtils.ExchangeList();
+                Log.d("Tag", String.valueOf(code));
+
+            }
+        }).start();
+
+
         editText = (view).findViewById(R.id.alertDialog_et);
         editText.setFocusable(false);
         editText.getBackground().setAlpha(100);
@@ -114,17 +132,6 @@ public class FragmentSwap extends Fragment {
             }
         });
 
-
-        new Thread(new Runnable() {
-            int code;
-
-            @Override
-            public void run() {
-                code = AsHttpUtils.ExchangeList();
-                Log.d("Tag", String.valueOf(code));
-
-            }
-        }).start();
 
 
         intentFilter = new IntentFilter();
@@ -197,7 +204,7 @@ public class FragmentSwap extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        ExchangeAdapter adapter = new ExchangeAdapter(exchangeitemList);
+         adapter = new ExchangeAdapter(exchangeitemList);
         recyclerView.setAdapter(adapter);
         ImageView fabiao = (view).findViewById(R.id.fabiao);
         fabiao.setOnClickListener(new View.OnClickListener() {
@@ -234,6 +241,12 @@ public class FragmentSwap extends Fragment {
 //        });
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     private void parseJSONWithJsonObject(String jsonData) {////*****

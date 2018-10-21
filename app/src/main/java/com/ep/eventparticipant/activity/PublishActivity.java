@@ -25,6 +25,8 @@ import java.util.Random;
 
 import okhttp3.OkHttpClient;
 
+import static com.ep.eventparticipant.activity.portrait.bitmapToFile;
+
 
 public class PublishActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView camera;
@@ -35,14 +37,18 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     public static OkHttpClient client;
     private File tempFile;
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
-    private Uri uri=null;
+    private Uri uri = null;
+
+    private String imgUrl;
+    private boolean isUploaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
         init();
-       final String name= DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA))+".jpg";
+
+        final String name = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
         client = new OkHttpClient();
         camera = (ImageView) findViewById(R.id.camera);
         camera.setOnClickListener(this);
@@ -55,24 +61,29 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         fabu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (biaoti.getText() == null || miaoshu.getText() == null || a == 0 || weizhi.getText() == null || gujia.getText() == null || jiezhishijian.getText() == null || lianxifangshi.getText() == null) {
+                if (biaoti.getText().toString().equals("") || miaoshu.getText().toString().equals("") || weizhi.getText().toString().equals("")
+                        || gujia.getText().toString().equals("") || jiezhishijian.getText().toString().equals("") || lianxifangshi.getText().toString().equals("")) {
                     Toast.makeText(PublishActivity.this, "请把相关信息填写完整", Toast.LENGTH_SHORT).show();
                 } else {
 
-String imageurl=null;
+                    // 检测图片是否上传成功！
+                    if (!isUploaded){
+                        Toast.makeText(PublishActivity.this, "图片上传中， 请稍后！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-new Thread(new Runnable() {
-    @Override
-    public void run() {
-       int code= AsHttpUtils.createExchange(biaoti.getText().toString(),jiezhishijian.getText().toString(),weizhi.getText().toString(),miaoshu.getText().toString(),gujia.getText().toString(),null);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int code = AsHttpUtils.createExchange(biaoti.getText().toString(), jiezhishijian.getText().toString(), weizhi.getText().toString(), miaoshu.getText().toString(), gujia.getText().toString(), imgUrl);
 
-        //Toast.makeText(PublishActivity.this,String.valueOf(code),Toast.LENGTH_SHORT).show();
-        Log.d("TAG","--------------------"+String.valueOf(code));
-    }
-}).start();
-          // createExchange(biaoti.getText().toString(),jiezhishijian.getText().toString(),weizhi.getText().toString(),miaoshu.getText().toString(),gujia.getText().toString(),imageurl);
-Toast.makeText(PublishActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
-finish();
+                            //Toast.makeText(PublishActivity.this,String.valueOf(code),Toast.LENGTH_SHORT).show();
+                            Log.d("TAG", "--------------------" + String.valueOf(code));
+                        }
+                    }).start();
+                    // createExchange(biaoti.getText().toString(),jiezhishijian.getText().toString(),weizhi.getText().toString(),miaoshu.getText().toString(),gujia.getText().toString(),imageurl);
+                    Toast.makeText(PublishActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });
@@ -88,7 +99,7 @@ finish();
 //                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //                intent.putExtra(MediaStore.ACTION_IMAGE_CAPTURE,uri);
                 a = 1;
-              startActivityForResult(intent, 0);
+                startActivityForResult(intent, 0);
                 break;
         }
     }
@@ -97,18 +108,31 @@ finish();
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            Bundle bundle=data.getExtras();
+            Bundle bundle = data.getExtras();
             bitmap = data.getParcelableExtra("data");
             camera.setPadding(5, 5, 5, 5);
             //uri=Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,null,null));
-           // Glide.with(this).load(uri).into(camera);
-           camera.setImageBitmap(bitmap);
+            // Glide.with(this).load(uri).into(camera);
+            camera.setImageBitmap(bitmap);
 
+            Toast.makeText(this, "图片上传中， 请稍等！", Toast.LENGTH_SHORT).show();
 
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    imgUrl = AsHttpUtils.upImage(bitmapToFile(bitmap));
+                    isUploaded = true;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(PublishActivity.this, "图片上传完成！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).start();
 
-
-            }
         }
+    }
 
 
     private void init() {
@@ -124,11 +148,10 @@ finish();
 
     /*----------------------------*/
 
-static public File createFile(){
-    File file=new File(Environment.getExternalStorageDirectory()+"/"+new Random().nextInt()+".jpg");
-    return file;
-}
-
+    static public File createFile() {
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + new Random().nextInt() + ".jpg");
+        return file;
+    }
 
 
 }

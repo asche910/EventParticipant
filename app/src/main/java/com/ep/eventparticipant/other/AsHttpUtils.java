@@ -536,7 +536,7 @@ public class AsHttpUtils {
                 try {
                     all_item.setName(jc.getString("name"));
                     all_item.setAddress(jc.getString("address"));
-                    all_item.setImageurl(jc.getString("imageurl"));
+                    all_item.setImageurl(jc.getString("imageUrl"));
                     all_item.setPrice(jc.getInt("price"));
                     all_item.setExpect(jc.getString("expect"));
                     all_item.setTime(jc.getString("time"));
@@ -569,12 +569,13 @@ public class AsHttpUtils {
 
         try {
             Response response = client.newCall(request).execute();
-            int code = new JSONObject(response.body().string()).getInt("status");
+            String result = response.body().string();
+            Log.e(TAG, "createExchange: " + result );
+            int code = new JSONObject(result).getInt("status");
             return code;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 1;
     }
-
 }

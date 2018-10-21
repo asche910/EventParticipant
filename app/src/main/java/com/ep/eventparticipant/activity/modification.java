@@ -37,7 +37,7 @@ public class modification extends AppCompatActivity {
             public void onClick(View v) {
 
                 String na = Name.getText().toString();
-                curUser.setSignature(na);
+                curUser.setName(na);
 
                 new Thread(new Runnable() {
                     @Override
