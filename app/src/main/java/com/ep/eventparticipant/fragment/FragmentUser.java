@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
@@ -18,14 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ep.eventparticipant.activity.EventNewActivity;
 import com.ep.eventparticipant.activity.EventResultActivity;
 import com.ep.eventparticipant.activity.ExchangeInformation;
+import com.ep.eventparticipant.activity.LoginActivity;
+import com.ep.eventparticipant.activity.MainActivity;
 import com.ep.eventparticipant.object.User;
+import com.ep.eventparticipant.other.AsHttpUtils;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.activity.Personal_information;
 import com.ep.eventparticipant.R;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ep.eventparticipant.activity.exchangein;
 import com.ep.eventparticipant.activity.exchangeout;
@@ -40,6 +46,7 @@ import java.util.Map;
 import okhttp3.Request;
 
 import static com.ep.eventparticipant.fragment.FragmentHome.JOINED_LIST;
+import static org.litepal.LitePalBase.TAG;
 
 public class FragmentUser extends Fragment {
 
@@ -51,6 +58,7 @@ public class FragmentUser extends Fragment {
     private TextView Name;
     private TextView Signature;
     private TextView Phone;
+    private TextView logout;
     private Button exchange_out;
     private Button exchange_in;
     private Button issue;
@@ -60,9 +68,7 @@ public class FragmentUser extends Fragment {
     private File tempFile;
     private Uri imageUri;
 
-
     public static User curUser = new User();
-
 
     @Nullable
     @Override
@@ -71,37 +77,85 @@ public class FragmentUser extends Fragment {
         View view = inflater.from(container.getContext()).inflate(R.layout.fragment_user, container, false);
         touxiang = (de.hdodenhof.circleimageview.CircleImageView)view.findViewById(R.id.touxiang);
         Name = (TextView)view.findViewById(R.id.Name);
-        Name.setText(curUser.getName());
         Name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), Personal_information.class);
                 startActivity(intent);
-                getBitmapFromSharedPreferences();
+                // getBitmapFromSharedPreferences();
             }
         });
         //个性签名
         Signature = (TextView)view.findViewById(R.id.Signature);
-        Signature.setText(curUser.getSignature());
         Signature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), Personal_information.class);
                 startActivity(intent);
-                getBitmapFromSharedPreferences();
+//                getBitmapFromSharedPreferences();
             }
         });
         //手机号
         Phone = (TextView)view.findViewById(R.id.Phone);
-        Phone.setText(curUser.getPhone());
         Phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), Personal_information.class);
                 startActivity(intent);
-                getBitmapFromSharedPreferences();
+//                getBitmapFromSharedPreferences();
             }
         });
+
+        logout = view.findViewById(R.id.user_logout);
+        logout.setOnClickListener(new View.OnClickListener(){
+            int code;
+            @Override
+            public void onClick(View v) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        code = AsHttpUtils.logout();
+                    }
+                });
+                thread.start();
+
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (code == 0){
+                    Toast.makeText(getActivity(), "注销成功！", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+
+                    getActivity().finish();
+                }
+            }
+        });
+
+        // 头像加载
+        try {
+            if(curUser.getImageurl() == null || curUser.getImageurl().charAt(0) != 'h') {
+                curUser.setImageurl("http://120.79.137.167/d2a572bb-d968-453b-bcd4-e7837472aa46.png");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AsHttpUtils.updateUserInfo(curUser);
+                    }
+                }).start();
+            }
+
+            Log.e(TAG, "onClick: imgUrl: " + curUser.getImageurl() );
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "头像加载失败！", Toast.LENGTH_SHORT).show();
+        }
+
         //我的换出
         exchange_out = (Button)view.findViewById(R.id.exchange_out);
         exchange_out.setOnClickListener(new View.OnClickListener() {
@@ -143,14 +197,41 @@ public class FragmentUser extends Fragment {
         participate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Thread thd = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int code = AsHttpUtils.myJoinedActivity();
+                        Log.e(Constraints.TAG, "myJoinedActivity: return code: " + code);
+                    }
+                });
+                thd.start();
+                try {
+                    thd.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent_ = new Intent(getContext(), EventResultActivity.class);
                 intent_.putExtra("ListType", JOINED_LIST);
                 startActivity(intent_);
             }
         });
-        getBitmapFromSharedPreferences();
+//        getBitmapFromSharedPreferences();
         initView();
         return  view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Name.setText(curUser.getName());
+        Signature.setText(curUser.getSignature());
+        Phone.setText(curUser.getPhone());
+
+        Glide.with(getActivity())
+                .load(curUser.getImageurl())
+                .into(touxiang);
     }
 
     private boolean hasSdcard() {
@@ -168,7 +249,7 @@ public class FragmentUser extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), Personal_information.class);
                 startActivity(intent);
-                getBitmapFromSharedPreferences();
+//                getBitmapFromSharedPreferences();
             }
         });
     }

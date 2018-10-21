@@ -28,7 +28,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.ep.eventparticipant.fragment.FragmentSwap.exchangeitemList;
 
 public class ExchangeInformation extends AppCompatActivity {
     public static List<Informention_item> informention_itemList = new ArrayList<>();

@@ -28,6 +28,20 @@
             android:text="个人界面"
             android:textColor="#ffffff"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/user_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22sp"
+            android:text="注销"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+
     </RelativeLayout>
 
     <RelativeLayout

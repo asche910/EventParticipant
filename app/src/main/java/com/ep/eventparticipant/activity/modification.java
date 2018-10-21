@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.object.User;
+import com.ep.eventparticipant.other.AsHttpUtils;
 
 import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
 
@@ -34,6 +35,16 @@ public class modification extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String na = Name.getText().toString();
+                curUser.setSignature(na);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AsHttpUtils.updateUserInfo(curUser);
+                    }
+                }).start();
 
                 finish();
             }

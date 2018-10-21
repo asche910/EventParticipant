@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 thread.start();
                 try {
-                     thread.join(4000);
+                     thread.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

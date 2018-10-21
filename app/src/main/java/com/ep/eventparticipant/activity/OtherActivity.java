@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,12 +62,14 @@ public class OtherActivity extends AppCompatActivity {
 
 
                     All_item all_item = allItems.get(j);
+                    Glide.with(this).load(all_item.getImageurl()).into(imageView);
+
                     textView.setText("12543");
                     textView1.setText(all_item.getAddress());
-                    textView2.setText(all_item.getExpect());
                     textView3.setText(all_item.getPrice());
+                    textView2.setText(all_item.getExpect());
                     textView4.setText("1010");
-                    Glide.with(this).load(all_item.getImageurl()).into(imageView);
+                    Log.e("aaaa", "onCreate: ------------------>" + all_item.getImageurl());
                 } catch (Exception e) {
                     Toast.makeText(this, "加载失败", Toast.LENGTH_LONG).show();
                 }

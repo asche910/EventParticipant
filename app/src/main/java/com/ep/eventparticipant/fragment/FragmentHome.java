@@ -63,10 +63,9 @@ import static com.zhihu.matisse.internal.utils.PathUtils.isMediaDocument;
  * @author As_
  * @since 2018/07/24
  * @email apknet@163.com
- * @github https://github.com/apknet
+ * @github https://github.com/asche910
  *
  */
-
 public class FragmentHome extends Fragment implements View.OnClickListener {
     ViewPagerClass viewPagerClass;
     public static List<View> viewList = new ArrayList<>();
@@ -93,7 +92,6 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     HomePopularAdapter homePopularAdapter;
     HomeSuggestAdapter homeSuggestAdapter;
 
-
     public static List<EventBean> eventBeanList = new ArrayList<>();
     public static List<EventBean> myCreatedList = new ArrayList<>();
     public static List<EventBean> myJoinedList = new ArrayList<>();
@@ -108,7 +106,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     // 服务器上所有活动列表
     public static List<EventBean> tempList = new ArrayList<>();
 
-    //判断标题输入内容
+    //判断标题输入的内容
     boolean isNum;
 
     @Nullable
@@ -203,22 +201,19 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-//                    Toast.makeText(getContext(), "获得了焦点！", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getContext(), "获得了焦点！", Toast.LENGTH_SHORT).show();
                     isEditFocus = true;
                 } else {
-//                    Toast.makeText(getContext(), "失去了焦点！", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getContext(), "失去了焦点！", Toast.LENGTH_SHORT).show();
                     isEditFocus = false;
                     textTitle.setVisibility(View.VISIBLE);
                     editTitle.setVisibility(View.GONE);
                 }
             }
         });
-
-
     }
 
     private void init() {
-
         ImageView img_1 = new ImageView(getContext());
         img_1.setBackgroundResource(R.drawable.bg_home_1);
 
@@ -285,15 +280,27 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         myJoinedList.remove(3);
 
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
     }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_stable_join:
             case R.id.fab_scroll_join:
+                Thread thd = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int code = AsHttpUtils.myJoinedActivity();
+                        Log.e(TAG, "myJoinedActivity: return code: " + code);
+                    }
+                });
+                thd.start();
+                try {
+                    thd.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent_ = new Intent(getContext(), EventResultActivity.class);
                 intent_.putExtra("ListType", JOINED_LIST);
                 startActivity(intent_);
@@ -301,12 +308,22 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
             case R.id.fab_stable_created:
             case R.id.fab_scroll_created:
 
-                for(EventBean eventBean: tempList){
-                    if (eventBean.getOrganizerId() == curUser.getId())
-                        myCreatedList.add(eventBean);
+                Thread th = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int code = AsHttpUtils.myCreatedActivity();
+                        Log.e(TAG, "myCreatedActivity: return code: " + code);
+                    }
+                });
+                th.start();
+                try {
+                    th.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                Log.e(TAG, "run: my after size -------------------------------->" + myCreatedList.size() );
-                Log.e(TAG, "run: size -------------------------------->" + tempList.size() );
+
+                Log.e(TAG, "run: myCreatedList size -------------------------------->" + myCreatedList.size() );
+                Log.e(TAG, "run: total size -------------------------------->" + tempList.size());
 
                 Intent intent_1 = new Intent(getContext(), EventResultActivity.class);
                 intent_1.putExtra("ListType", CREATED_LIST);
@@ -331,9 +348,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                         Toast.makeText(MyApplication.getContext(), "请输入要搜索的内容！", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        Toast.makeText(getActivity(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(getContext(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
-
+                        // Toast.makeText(getActivity(), "搜索中， 请等待...", Toast.LENGTH_SHORT).show();
                         try {
                             Integer.parseInt(editTitle.getText().toString());
                             isNum = true;
@@ -350,15 +365,16 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                         });
                         thread.start();
                         try {
-                            thread.join(4000);
+                            thread.join();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
 
+                        Toast.makeText(getActivity(), "搜索完成！", Toast.LENGTH_SHORT).show();
+
                         Intent intent_3 = new Intent(getContext(), EventResultActivity.class);
                         intent_3.putExtra("ListType", SEARCH_LIST);
                         startActivity(intent_3);
-
                     }
                 }
                 break;
@@ -382,11 +398,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         return false;
     }
 
-
     public static String getPath(final Context context, final Uri uri) {
-
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
@@ -440,5 +453,4 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         }
         return null;
     }
-
 }

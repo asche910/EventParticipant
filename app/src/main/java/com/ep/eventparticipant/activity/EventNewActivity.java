@@ -152,7 +152,7 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }).start();
 
-                Toast.makeText(this, "Success！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "活动创建成功！", Toast.LENGTH_SHORT).show();
                 finish();
 
                 break;
@@ -273,9 +273,6 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
     }
-
 }

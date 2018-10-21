@@ -97,16 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
                     thread.start();
+
                     try {
-                        Thread.sleep(1000);
+                        thread.join();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-               /*     try {
-                        thread.join(4000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
 
                     if (isSuccess) {
                         Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();

@@ -91,16 +91,22 @@ public class FindThing extends AppCompatActivity  implements android.widget.Sear
         @Override
         public boolean onQueryTextSubmit(final String query) {
 
-            new Thread(new Runnable() {
+            Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     code = AsHttpUtils.searchExchange(query, false);
                     if (code != 0) {
 //                        Toast.makeText(FindThing.this, "未搜索到想换物品", Toast.LENGTH_LONG).show();
-
                     }
                 }
-            }).start();
+            });
+            thread.start();
+
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.find_recyclerview);
             StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -109,8 +115,9 @@ public class FindThing extends AppCompatActivity  implements android.widget.Sear
             AllAdapter allAdapter = new AllAdapter(allItems);
             if (code == 0) {
                 recyclerView.setAdapter(allAdapter);
+                Toast.makeText(FindThing.this, "搜索完成！", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(FindThing.this, "搜索失败", Toast.LENGTH_LONG).show();
+                Toast.makeText(FindThing.this, "搜索失败", Toast.LENGTH_SHORT).show();
 //
 //           switch (query.charAt(0)){
 //               case '手':case '小': PhoneFragment.initAll();AllAdapter allAdapter0=new AllAdapter(PhoneFragment.all_items);recyclerView.setAdapter(allAdapter0);break;

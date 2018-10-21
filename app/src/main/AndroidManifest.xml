@@ -52,6 +52,7 @@
         <activity android:name=".activity.exchangein" />
         <activity android:name=".activity.modification" />
         <activity android:name=".activity.midificateSignature"></activity>
+        <activity android:name=".activity.midificatePhone"></activity>
         <activity android:name=".activity.ExchangeFinish" />
         <activity android:name=".activity.AllActivity"></activity>
     </application>

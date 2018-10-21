@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ep.eventparticipant.fragment.PhoneFragment.all_items;
+import static org.litepal.LitePalBase.TAG;
 
 public class digitalFragment extends Fragment {
    // public static List<All_item> all_items=new ArrayList<>();
@@ -36,6 +38,7 @@ public class digitalFragment extends Fragment {
     }
     public static void initAll(){
         all_items.add(new All_item("收纳袋",R.drawable.digital));
+        Log.e(TAG, "initAll: " +  R.drawable.digital);
         all_items.add(new All_item("收纳包",R.drawable.digital_2));
         all_items.add(new All_item("耳机",R.drawable.digital_3));
     }

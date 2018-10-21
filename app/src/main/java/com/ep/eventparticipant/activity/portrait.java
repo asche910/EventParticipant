@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -17,17 +18,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.ep.eventparticipant.fragment.FragmentUser;
+import com.ep.eventparticipant.other.AsHttpUtils;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.R;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Request;
+
+import static com.ep.eventparticipant.fragment.FragmentUser.curUser;
 
 public class portrait extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,6 +56,11 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portrait);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        // builder.detectFileUriExposure();
+        StrictMode.setVmPolicy(builder.build());
+
         initView();
     }
 
@@ -55,10 +70,15 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
         bt_xiangce = (Button) findViewById(R.id.bt_xiangce);
         fanhui = (Button)findViewById(R.id.fanhui);
 //从SharedPreferences获取图片
-        getBitmapFromSharedPreferences();
+        // getBitmapFromSharedPreferences();
+        // TODO
         bt_camera.setOnClickListener(this);
         bt_xiangce.setOnClickListener(this);
         fanhui.setOnClickListener(this);
+
+        Glide.with(getApplicationContext())
+                .load(curUser.getImageurl())
+                .into(iv_img);
     }
 
     @Override
@@ -90,7 +110,6 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
                 default:
         }
     }
-
 
     /*
      * 判断sdcard是否被挂载
@@ -155,10 +174,32 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
                  * 获得图片
                  */
                 iv_img.setImageBitmap(bitmap);
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String url = AsHttpUtils.upImage(bitmapToFile(bitmap));
+                        curUser.setImageurl(url);
+
+                        AsHttpUtils.updateUserInfo(curUser);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(portrait.this, "图片上传成功！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                thread.start();
+                Toast.makeText(this, "图片上传中， 请稍等！", Toast.LENGTH_LONG).show();
+
                 //保存到SharedPreferences
-                saveBitmapToSharedPreferences(bitmap);
+                // saveBitmapToSharedPreferences(bitmap);
             }
+
             try {
+//                thread.join();
                 // 将临时文件删除
                 tempFile.delete();
             } catch (Exception e) {
@@ -166,6 +207,20 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static File bitmapToFile(Bitmap bitmap){
+        File file = new File(Environment.getExternalStorageDirectory(), ".temp");
+        try {
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
     //保存图片到SharedPreferences
@@ -184,9 +239,8 @@ public class portrait extends AppCompatActivity implements View.OnClickListener 
         editor.commit();
 
         //上传头像
-        setImgByStr(imageString,"");
+        // setImgByStr(imageString,"");
     }
-
 
     /**
      * 上传头像       此处使用用的OKHttp post请求上传的图片

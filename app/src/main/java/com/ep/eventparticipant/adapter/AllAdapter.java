@@ -90,7 +90,13 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final All_item all_item = mall_items.get(position);
         holder.textView.setText(all_item.getName());
-        Glide.with(context).load(all_item.getId()).into(holder.imageView);
+
+        int id = all_item.getId();
+        if (id > 10000)
+            Glide.with(context).load(all_item.getId()).into(holder.imageView);
+        else
+            Glide.with(context).load(all_item.getImageurl()).into(holder.imageView);
+
         final String name = all_item.getName();
         holder.xiangqin.setOnClickListener(new View.OnClickListener() {
             @Override

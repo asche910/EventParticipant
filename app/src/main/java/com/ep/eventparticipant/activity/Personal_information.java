@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ep.eventparticipant.other.OkHttp;
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.R;
@@ -64,11 +65,20 @@ public class Personal_information extends AppCompatActivity {
         Phone =(TextView)findViewById(R.id.Phone);
         Signature = (TextView)findViewById(R.id.Signature);
         initView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         Name.setText(curUser.getName());
         Phone.setText(curUser.getPhone());
         Signature.setText(curUser.getSignature());
+        Glide.with(getApplicationContext())
+                .load(curUser.getImageurl())
+                .into(touxiang);
     }
+
     private void sendRequestWithOkHttp(){
         new Thread(new Runnable() {
             @Override
@@ -92,14 +102,14 @@ public class Personal_information extends AppCompatActivity {
         touxiang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBitmapFromSharedPreferences();
+//                getBitmapFromSharedPreferences();
                 Intent intent = new Intent(Personal_information.this, portrait.class);
                 startActivity(intent);
                 if (hasSdcard()) {
                     tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);
                     // 从文件中创建uri
                     Uri uri = Uri.fromFile(tempFile);
-                    getBitmapFromSharedPreferences();
+//                    getBitmapFromSharedPreferences();
                 }
             }
         });
@@ -116,7 +126,8 @@ public class Personal_information extends AppCompatActivity {
         Phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Phone.setText(curUser.getPhone());
+                Intent intent = new Intent(Personal_information.this, midificatePhone.class);
+                startActivity(intent);
             }
         });
 
@@ -154,13 +165,13 @@ public class Personal_information extends AppCompatActivity {
                 Uri uri = data.getData();
                 Bitmap bitmap = data.getParcelableExtra("data");
                 touxiang.setImageBitmap(bitmap);
-                saveBitmapToSharedPreferences(bitmap);
+//                saveBitmapToSharedPreferences(bitmap);
             }
         } else if (requestCode == PHOTO_REQUEST_CAREMA) {
             Uri uri = data.getData();
             Bitmap bitmap = data.getParcelableExtra("data");
             touxiang.setImageBitmap(bitmap);
-            saveBitmapToSharedPreferences(bitmap);
+//            saveBitmapToSharedPreferences(bitmap);
             // 从相机返回的数据
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             // 从剪切图片返回的数据
@@ -168,7 +179,7 @@ public class Personal_information extends AppCompatActivity {
                 Uri uri = data.getData();
                 Bitmap bitmap = data.getParcelableExtra("data");
                 touxiang.setImageBitmap(bitmap);
-                saveBitmapToSharedPreferences(bitmap);
+//                saveBitmapToSharedPreferences(bitmap);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
