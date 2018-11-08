@@ -48,9 +48,11 @@ public class AsHttpUtils {
     private static String cookie;
     public static List<All_item> all_items = new ArrayList<>();
 
+    private static String baseUrl = "http://120.79.137.167";
+
 
     public static int login(String user, String pass) {
-        String url = String.format("http://120.79.137.167:8080/firstProject/user/login.do?userName=%s&password=%s", user, pass);
+        String url = String.format(baseUrl + "/firstProject/user/login.do?userName=%s&password=%s", user, pass);
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -89,7 +91,7 @@ public class AsHttpUtils {
     }
 
     public static int logout(){
-        String url = "http://120.79.137.167:8080/firstProject/user/logout.do";
+        String url =  baseUrl + "/firstProject/user/logout.do";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -110,7 +112,7 @@ public class AsHttpUtils {
 
     public static int register(String name, String userName, String pass) {
         Log.e(TAG, "register: ---> name: " + name + " userName: " + userName);
-        String url = String.format("http://120.79.137.167:8080/firstProject/user/register.do?userName=%s&password=%s&name=%s",
+        String url = String.format(baseUrl + "/firstProject/user/register.do?userName=%s&password=%s&name=%s",
                 userName, pass, name);
         Request request = new Request.Builder()
                 .url(url)
@@ -141,7 +143,7 @@ public class AsHttpUtils {
                         RequestBody.create(MediaType.parse("image/jpg"), file))
                 .build();
         Request request = new Request.Builder()
-                .url("http://120.79.137.167:8080/firstProject/activity/uploadActivityPicture.do")
+                .url(baseUrl + "/firstProject/activity/uploadActivityPicture.do")
                 .header("Cookie", cookie)
                 .post(requestBody)
                 .build();
@@ -165,7 +167,7 @@ public class AsHttpUtils {
     //    发布活动
     public static int createActivity(int id, String name, String time, String address, String note, String imgUrl) {
         String url = String.format(
-                "http://120.79.137.167:8080/firstProject/activity/release.do?id=%d&name=%s&time=%s&address=%s&introduction=%s&imageurl=%s",
+                baseUrl + "/firstProject/activity/release.do?id=%d&name=%s&time=%s&address=%s&introduction=%s&imageurl=%s",
                 id, name, time, address, note, imgUrl);
 
         Request request = new Request.Builder()
@@ -187,7 +189,7 @@ public class AsHttpUtils {
     //    修改活动
     public static int updateActivity(int id, String name, String time, String address, String note, String imgUrl) {
         String url = String.format(
-                "http://120.79.137.167:8080/firstProject/activity/release.do?id=%d&name=%s&time=%s&address=%s&introduction=%s&imageurl=%s",
+                baseUrl + "/firstProject/activity/release.do?id=%d&name=%s&time=%s&address=%s&introduction=%s&imageurl=%s",
                 id, name, time, address, note, imgUrl);
 
         Request request = new Request.Builder()
@@ -207,7 +209,7 @@ public class AsHttpUtils {
 
     //    报名活动
     public static int joinActivity(int id) {
-        String url = String.format("http://120.79.137.167:8080/firstProject/activity_member/sign_up.do?activityId=%d", id);
+        String url = String.format(baseUrl + "/firstProject/activity_member/sign_up.do?activityId=%d", id);
         Request request = new Request.Builder()
                 .url(url)
                 .header("Cookie", cookie)
@@ -224,7 +226,7 @@ public class AsHttpUtils {
 
     //    取消报名
     public static int exitActivity(int id) {
-        String url = String.format("http://120.79.137.167:8080/firstProject/activity_member/cancel_sign_up.do?activityId=%d", id);
+        String url = String.format(baseUrl + "/firstProject/activity_member/cancel_sign_up.do?activityId=%d", id);
         Request request = new Request.Builder()
                 .url(url)
                 .header("Cookie", cookie)
@@ -243,7 +245,7 @@ public class AsHttpUtils {
     public static List<EventBean> allActivity() {
         List<EventBean> events = new ArrayList<>();
         Request request = new Request.Builder()
-                .url("http://120.79.137.167:8080/firstProject/activity/List.do")
+                .url(baseUrl + "/firstProject/activity/List.do")
                 .header("Cookie", cookie)
                 .build();
         try {
@@ -253,7 +255,7 @@ public class AsHttpUtils {
             int pages = jsonObject.getJSONObject("data").getInt("pages");
             if (code == 0) {
                 for (int i = 1; i <= pages; i++) {
-                    events.addAll(allActivity(i));
+                    events.addAll(getPageList(i, "/firstProject/activity/List.do"));
                 }
             }
             return events;
@@ -266,7 +268,7 @@ public class AsHttpUtils {
     //    活动列表(内部方法)
     private static List<EventBean> allActivity(int page) {
         Request request = new Request.Builder()
-                .url("http://120.79.137.167:8080/firstProject/activity/List.do?pageNum=" + page)
+                .url(baseUrl + "/firstProject/activity/List.do?pageNum=" + page)
                 .header("Cookie", cookie)
                 .build();
         try {
@@ -297,11 +299,11 @@ public class AsHttpUtils {
 
         Request.Builder builder = new Request.Builder();
         if (isInt) {
-            url_int = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityId=%s", args);
+            url_int = String.format(baseUrl + "/firstProject/activity/search.do?activityId=%s", args);
             builder.url(url_int);
             builder.header("Cookie", cookie);
         } else {
-            url_str = String.format("http://120.79.137.167:8080/firstProject/activity/search.do?activityName=%s", args);
+            url_str = String.format(baseUrl + "/firstProject/activity/search.do?activityName=%s", args);
             builder.url(url_str);
             builder.header("Cookie", cookie);
             Log.e(TAG, "searchActivity: " + cookie);
@@ -328,7 +330,7 @@ public class AsHttpUtils {
 
     // 我发布的活动
     public static int myCreatedActivity() {
-        String url = "http://120.79.137.167:8080/firstProject/user/my_activity_list.do";
+        String url = baseUrl + "/firstProject/user/my_activity_list.do";
         Request request = new Request.Builder()
                 .url(url)
                 .header("Cookie", cookie)
@@ -337,13 +339,19 @@ public class AsHttpUtils {
             Response response = client.newCall(request).execute();
             String result = response.body().string();
 
-            JSONObject jsonObject = new JSONObject(result);
-            int code = jsonObject.getInt("status");
-            JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
+            Log.e(TAG, "myCreatedActivity: myCreated: " + result );
 
             myCreatedList.clear();
-            parseEventArray(myCreatedList, ja);
 
+            JSONObject jsonObject = new JSONObject(result);
+            int code = jsonObject.getInt("status");
+
+            int pages = jsonObject.getJSONObject("data").getInt("pages");
+            if (code == 0) {
+                for (int i = 1; i <= pages; i++) {
+                    myCreatedList.addAll(getPageList(i, "/firstProject/user/my_activity_list.do"));
+                }
+            }
             return code;
         } catch (Exception e) {
             e.printStackTrace();
@@ -353,7 +361,7 @@ public class AsHttpUtils {
 
     // 我参加的活动
     public static int myJoinedActivity() {
-        String url = "http://120.79.137.167:8080/firstProject/user/activity_list.do";
+        String url = baseUrl + "/firstProject/user/activity_list.do";
         Request request = new Request.Builder()
                 .url(url)
                 .header("Cookie", cookie)
@@ -362,13 +370,19 @@ public class AsHttpUtils {
             Response response = client.newCall(request).execute();
             String result = response.body().string();
 
+            Log.e(TAG, "myJoinedActivity:  myJoined: " + result );
+            myJoinedList.clear();
+
             JSONObject jsonObject = new JSONObject(result);
             int code = jsonObject.getInt("status");
-            JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
 
-            myJoinedList.clear();
-            parseEventArray(myJoinedList, ja);
-
+            int pages = jsonObject.getJSONObject("data").getInt("pages");
+            if (code == 0) {
+                for (int i = 1; i <= pages; i++) {
+                    myJoinedList.addAll(getPageList(i, "/firstProject/user/activity_list.do"));
+                }
+                Log.e(TAG, "myJoinedActivity: myJointed size: " + myJoinedList.size() );
+            }
             return code;
         } catch (Exception e) {
             e.printStackTrace();
@@ -412,6 +426,29 @@ public class AsHttpUtils {
         }
     }
 
+
+    public static List<EventBean> getPageList(int page, String relUrl){
+        Request request = new Request.Builder()
+                .url(baseUrl + relUrl + "?pageNum=" + page)
+                .header("Cookie", cookie)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            JSONObject jsonObject = new JSONObject(response.body().string());
+            int code = jsonObject.getInt("status");
+            JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("list");
+            if (code == 0) {
+                List<EventBean> allEvents = new ArrayList<>();
+                parseEventArray(allEvents, ja);
+
+                return allEvents;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static int updateUserInfo(User user) {
         // int id = user.getId();
         String username = user.getUsername();
@@ -421,7 +458,7 @@ public class AsHttpUtils {
         String Phone = user.getPhone();
         String Imageurl = user.getImageurl();
 
-        String api = "http://120.79.137.167:8080/firstProject/user/update.do?";
+        String api = baseUrl + "/firstProject/user/update.do?";
         String url = String.format(api+"username=%s&name=%s&signature=%s&phone=%s&imageurl=%s", username, Name, Signature, Phone, Imageurl);
 
         Request request = new Request.Builder()
@@ -448,7 +485,7 @@ public class AsHttpUtils {
 
 
     public static int ExchangeList() {
-        Request request = new Request.Builder().url("http://120.79.137.167:8080/firstProject/exchange/list.do").header("Cookie", cookie).build();
+        Request request = new Request.Builder().url(baseUrl + "/firstProject/exchange/list.do").header("Cookie", cookie).build();
         try {
             Response response = client.newCall(request).execute();
             //JSONObject jsonObject=new JSONObject(response.body().string());
@@ -466,9 +503,9 @@ public class AsHttpUtils {
                     String imageUrl = null;
                     imageUrl = object.getString("imageUrl").replaceAll("\\\\", "");
                     if ("http://sdfsf".equals(imageUrl))
-                        imageUrl = "http://120.79.137.167/752275cd-8122-403a-8881-581f9d40d756.png";
+                        imageUrl = baseUrl + "/752275cd-8122-403a-8881-581f9d40d756.png";
                     if (imageUrl == null || imageUrl.charAt(0) != 'h') {
-                        imageUrl = "http://120.79.137.167/bd839423-3b9a-4452-972f-d45df92c10da.png";
+                        imageUrl = baseUrl + "/bd839423-3b9a-4452-972f-d45df92c10da.png";
                     }
 
                     String name = object.getString("name");
@@ -508,8 +545,8 @@ public class AsHttpUtils {
 
     // 搜索交换
     public static int searchExchange(String args, boolean isInt) {
-        String url_int = String.format("http://120.79.137.167:8080/firstProject/exchange/selectLike.do?name=%s", args);
-        String url_str = String.format("http://120.79.137.167:8080/firstProject/exchange/selectLike.do?name=%s", args);
+        String url_int = String.format(baseUrl + "/firstProject/exchange/selectLike.do?name=%s", args);
+        String url_str = String.format(baseUrl + "/firstProject/exchange/selectLike.do?name=%s", args);
 
         Request.Builder builder = new Request.Builder();
         if (isInt) {
@@ -563,7 +600,7 @@ public class AsHttpUtils {
     }
 
     public static int createExchange(String name, String time, String place, String expect, String price, String url1) {
-        String url = String.format("http://120.79.137.167:8080/firstProject/exchange/upload_exchange.do?name=%s&time=%s&address=%s&expect=%s&price=%s&imageurl=%s", name, time, place, expect, price, url1);
+        String url = String.format(baseUrl + "/firstProject/exchange/upload_exchange.do?name=%s&time=%s&address=%s&expect=%s&price=%s&imageurl=%s", name, time, place, expect, price, url1);
 
         Request request = new Request.Builder().url(url).header("Cookie", cookie).build();
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ep.eventparticipant.R;
 import com.ep.eventparticipant.adapter.HomePopularAdapter;
 import com.ep.eventparticipant.object.EventBean;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +54,11 @@ public class EventResultActivity extends AppCompatActivity {
 
     private int listType;
     private List<EventBean> list = new ArrayList<>();
+    private List<EventBean> visibleList = new ArrayList<>();
+    // 当前显示多少条
+    private int index = 0;
+
+    private SmartRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +74,7 @@ public class EventResultActivity extends AppCompatActivity {
         textEmpty = findViewById(R.id.result_text_empty);
         btnBack = findViewById(R.id.result_btn_back);
         recyclerView = findViewById(R.id.recyclerview_result);
+        refreshLayout = findViewById(R.id.refreshLayout_event);
 
         listType = getIntent().getIntExtra("ListType", EVENT_LIST);
         switch (listType){
@@ -83,8 +94,15 @@ public class EventResultActivity extends AppCompatActivity {
                 break;
         }
 
+        if (index + 10 >= list.size()) {
+            visibleList.addAll(list.subList(index, list.size()));
+            index = list.size();
+        }else{
+            visibleList.addAll(list.subList(index, (index += 10)));
+        }
+
         layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new HomePopularAdapter(list);
+        adapter = new HomePopularAdapter(visibleList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -118,5 +136,24 @@ public class EventResultActivity extends AppCompatActivity {
             textEmpty.setVisibility(View.VISIBLE);
         }
 
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishLoadMore(200);
+
+                if (index + 1 >= list.size()){
+                    refreshLayout.finishLoadMore(true);
+                    return;
+                }
+
+                if (index + 10 >= list.size()) {
+                    visibleList.addAll(list.subList(index, list.size()));
+                }else {
+                    visibleList.addAll(list.subList(index, (index + 10)));
+                }
+
+                adapter.notifyItemRangeInserted(index, (index += 10));
+            }
+        });
     }
 }

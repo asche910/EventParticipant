@@ -113,7 +113,6 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -152,7 +151,11 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }).start();
 
-                Toast.makeText(this, "活动创建成功！", Toast.LENGTH_SHORT).show();
+                if (index != -1) {
+                    Toast.makeText(this, "活动修改成功！", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "活动创建成功！", Toast.LENGTH_SHORT).show();
+                }
                 finish();
 
                 break;

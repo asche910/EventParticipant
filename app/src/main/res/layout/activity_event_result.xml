@@ -15,7 +15,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/ic_event_back"/>
+            android:background="@drawable/ic_event_back" />
 
         <TextView
             android:id="@+id/result_text_title"
@@ -23,11 +23,11 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="创建的活动"
-            android:textSize="20sp"
-            android:textColor="#454545"/>
+            android:textColor="#454545"
+            android:textSize="20sp" />
 
     </RelativeLayout>
-    
+
     <TextView
         android:id="@+id/result_text_empty"
         android:layout_width="match_parent"
@@ -35,12 +35,19 @@
         android:gravity="center"
         android:text="活动列表为空！"
         android:textSize="20sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_result"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout_event"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>

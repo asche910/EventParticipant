@@ -24,6 +24,15 @@ import com.ep.eventparticipant.adapter.FragAdapter;
 import com.ep.eventparticipant.fragment.FragmentHome;
 import com.ep.eventparticipant.fragment.FragmentSwap;
 import com.ep.eventparticipant.fragment.FragmentUser;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,13 +53,13 @@ import static com.ep.eventparticipant.fragment.FragmentHome.viewList;
  * @github https://github.com/apknet
  *
  */
-
 public class MainActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     List<Fragment> fragmentList = new ArrayList<>();
     FragAdapter fragAdapter;
     BottomNavigationBar bottomNavigationBar;
+
     BottomNavigationItem bottomNavigationItemHome;
     BottomNavigationItem bottomNavigationItemSwap;
     BottomNavigationItem bottomNavigationItemUser;
@@ -83,6 +92,23 @@ public class MainActivity extends AppCompatActivity {
 //            7、取消报名
     public static final String CANCEL_ACTIVITY  = " http://120.79.137.167:8080/firstProject/activity_member/cancel_sign_up.do";
 
+
+
+    static {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                layout.setPrimaryColorsId(R.color.greyWhite, android.R.color.darker_gray);//全局设置主题颜色
+                return new ClassicsHeader(context);
+            }
+        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                return new ClassicsFooter(context);
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){

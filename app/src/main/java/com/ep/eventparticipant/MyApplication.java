@@ -10,10 +10,9 @@ import org.litepal.LitePal;
  * @author As_
  * @since 2018/07/24
  * @email apknet@163.com
- * @github https://github.com/apknet
+ * @github https://github.com/asche910
  *
  */
-
 public class MyApplication extends Application {
     private static Context context;
 

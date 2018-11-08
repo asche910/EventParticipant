@@ -43,7 +43,8 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ViewHo
     private Bitmap bitmap;
     private Context context;
     static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView thing;CardView cardView;
+        ImageView thing;
+        CardView cardView;
         TextView information;
         Button button;
         public ViewHolder (View view){
@@ -106,6 +107,7 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.ViewHo
     public int getItemCount() {
         return exchangeitemList.size();
     }
+
     public Bitmap returnBitMap(final String url){
 
         new Thread(new Runnable() {
