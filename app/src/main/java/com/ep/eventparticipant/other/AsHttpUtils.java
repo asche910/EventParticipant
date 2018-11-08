@@ -503,9 +503,9 @@ public class AsHttpUtils {
                     String imageUrl = null;
                     imageUrl = object.getString("imageUrl").replaceAll("\\\\", "");
                     if ("http://sdfsf".equals(imageUrl))
-                        imageUrl = baseUrl + "/752275cd-8122-403a-8881-581f9d40d756.png";
+                        imageUrl = baseUrl + ":20/b514776e-b6e8-42de-99c4-86af9428f898.png";
                     if (imageUrl == null || imageUrl.charAt(0) != 'h') {
-                        imageUrl = baseUrl + "/bd839423-3b9a-4452-972f-d45df92c10da.png";
+                        imageUrl = baseUrl + ":20/b514776e-b6e8-42de-99c4-86af9428f898.png";
                     }
 
                     String name = object.getString("name");
@@ -532,6 +532,7 @@ public class AsHttpUtils {
                     Random random = new Random();
                     int userID = random.nextInt();
                     Exchangeitem exchangeitem = new Exchangeitem(time, name, imageUrl, address, price, phone, String.valueOf(userID), expect);
+
                     exchangeitemList.add(exchangeitem);
                 }
                 return code;

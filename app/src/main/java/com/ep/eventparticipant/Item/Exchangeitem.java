@@ -20,7 +20,6 @@ public class Exchangeitem {
         return stoptime;
     }
 
-
     public void setStoptime(String stoptime) {
         this.stoptime = stoptime;
     }

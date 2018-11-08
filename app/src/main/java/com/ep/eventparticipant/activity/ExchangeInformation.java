@@ -73,17 +73,6 @@ public class ExchangeInformation extends AppCompatActivity {
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
         }//这样可以在主线程中发起网络亲求
 
-
-//new Thread(new Runnable() {
-//    @Override
-//    public void run() {
-//        int code=AsHttpUtils.ExchangeList();
-//        if(code==0){
-//            Toast.makeText(ExchangeInformation.this,"加载数据成功",Toast.LENGTH_LONG).show();
-//        }
-//    }
-//}).start();
-
     }
 
     @Override

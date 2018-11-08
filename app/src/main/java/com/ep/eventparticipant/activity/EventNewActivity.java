@@ -273,6 +273,11 @@ public class EventNewActivity extends AppCompatActivity implements View.OnClickL
 
                 btnImage.setBackground(Drawable.createFromStream(inputStream , null));
                 btnImage.setText("");
+
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -107,6 +107,8 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null)
+            return;
         if (requestCode == 0) {
             Bundle bundle = data.getExtras();
             bitmap = data.getParcelableExtra("data");
