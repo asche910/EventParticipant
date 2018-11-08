@@ -1,5 +1,6 @@
 package com.ep.eventparticipant.adapter;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,8 @@ import java.util.List;
 
 public class UserExchangeOutAdapter extends RecyclerView.Adapter<UserExchangeOutAdapter.ViewHolder> {
     private List<ExchangeOut> exchangeOuts;
+    private Context context;
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
@@ -37,13 +40,25 @@ public class UserExchangeOutAdapter extends RecyclerView.Adapter<UserExchangeOut
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_exchangeout, parent, false);
+
+        if (context == null){
+            context = parent.getContext();
+        }
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         ExchangeOut exchangeOut =  exchangeOuts.get(position);
-        holder.imageView.setImageResource(exchangeOut.getImageId());
+
+        if (exchangeOut.getImageId().length() < 10){
+            holder.imageView.setImageResource(Integer.parseInt(exchangeOut.getImageId()));
+        }else{
+            Glide.with(context)
+                    .load(exchangeOut.getImageId())
+                    .into(holder.imageView);
+        }
+
         holder.textView.setText(exchangeOut.getName());
     }
 

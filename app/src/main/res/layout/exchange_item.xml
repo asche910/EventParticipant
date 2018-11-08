@@ -15,6 +15,7 @@
         android:scaleType="fitXY"
         android:scrollbarStyle="insideInset"
         android:transitionName="sharedView"
+        android:background="@drawable/book_1"
         android:layout_width="200dp"
         android:layout_height="150dp" />
     <TextView

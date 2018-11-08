@@ -46,6 +46,7 @@ import java.util.Map;
 import okhttp3.Request;
 
 import static com.ep.eventparticipant.fragment.FragmentHome.JOINED_LIST;
+import static com.ep.eventparticipant.other.AsHttpUtils.myExchangeOut;
 import static org.litepal.LitePalBase.TAG;
 
 public class FragmentUser extends Fragment {
@@ -161,6 +162,18 @@ public class FragmentUser extends Fragment {
         exchange_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myExchangeOut();
+                    }
+                });
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(getActivity(), exchangeout.class);
                 startActivity(intent);
             }

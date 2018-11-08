@@ -10,6 +10,7 @@
     android:scaleType="fitXY"
     android:id="@+id/image_view_2"
     android:transitionName="sharedView"
+    android:background="@drawable/book_1"
     android:layout_width="match_parent"
     android:layout_height="200dp" />
     <RelativeLayout

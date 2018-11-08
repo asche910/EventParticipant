@@ -5,6 +5,7 @@ import android.util.Log;
 import com.ep.eventparticipant.Item.All_item;
 import com.ep.eventparticipant.Item.Exchangeitem;
 import com.ep.eventparticipant.object.EventBean;
+import com.ep.eventparticipant.object.ExchangeOut;
 import com.ep.eventparticipant.object.User;
 
 import org.json.JSONArray;
@@ -27,6 +28,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.support.constraint.Constraints.TAG;
+import static com.ep.eventparticipant.activity.exchangeout.exchangeOuts;
 import static com.ep.eventparticipant.fragment.FragmentHome.eventBeanList;
 import static com.ep.eventparticipant.fragment.FragmentHome.myCreatedList;
 import static com.ep.eventparticipant.fragment.FragmentHome.myJoinedList;
@@ -49,7 +51,6 @@ public class AsHttpUtils {
     public static List<All_item> all_items = new ArrayList<>();
 
     private static String baseUrl = "http://120.79.137.167";
-
 
     public static int login(String user, String pass) {
         String url = String.format(baseUrl + "/firstProject/user/login.do?userName=%s&password=%s", user, pass);
@@ -483,7 +484,6 @@ public class AsHttpUtils {
      * ------------------------------------------>>>  分割线！
      */
 
-
     public static int ExchangeList() {
         Request request = new Request.Builder().url(baseUrl + "/firstProject/exchange/list.do").header("Cookie", cookie).build();
         try {
@@ -544,6 +544,61 @@ public class AsHttpUtils {
         return 1;
     }
 
+    public static void myExchangeOut(){
+        Request request = new Request.Builder().url(baseUrl + "/firstProject/user/exchangeout.do").header("Cookie", cookie).build();
+        try {
+            Response response = client.newCall(request).execute();
+            String result = response.body().string();
+
+            Log.e(TAG, "myExchangeOut: " + result );
+            JSONObject jsonObject = new JSONObject(result);
+
+            int code = jsonObject.getInt("status");
+
+            if (code == 0) {
+                JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("exchangeVoList");
+
+                exchangeOuts.clear();
+                for(int i = 0; i< ja.length(); i++){
+                    JSONObject object = (JSONObject) ja.get(i);
+
+                    String imageUrl = null;
+                    imageUrl = object.getString("imageurl").replaceAll("\\\\", "");
+                    if ("http://sdfsf".equals(imageUrl))
+                        imageUrl = baseUrl + ":20/b514776e-b6e8-42de-99c4-86af9428f898.png";
+                    if (imageUrl == null || imageUrl.charAt(0) != 'h') {
+                        imageUrl = baseUrl + ":20/b514776e-b6e8-42de-99c4-86af9428f898.png";
+                    }
+
+                    String name = object.getString("name");
+              /*      String time = object.getString("time");
+                    String address = null;
+                    try {
+                        address = object.getString("address");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        address = "武汉科技大学";
+                    }
+
+                    String expect = null;
+                    int price = 0;
+                    try {
+                        expect = object.getString("expect");
+                        price = object.getInt("price");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+*/
+                    ExchangeOut exchangeOut = new ExchangeOut(name, imageUrl);
+                    exchangeOuts.add(exchangeOut);
+                    Log.e(TAG, "myExchangeOut: exchanges size:" + exchangeOuts.size() );
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     // 搜索交换
     public static int searchExchange(String args, boolean isInt) {
         String url_int = String.format(baseUrl + "/firstProject/exchange/selectLike.do?name=%s", args);
@@ -591,7 +646,6 @@ public class AsHttpUtils {
                 all_item.setImageurl(imageUrl);
 
                 all_items.add(all_item);
-
             }
             return code;
         } catch (Exception e) {
@@ -602,7 +656,6 @@ public class AsHttpUtils {
 
     public static int createExchange(String name, String time, String place, String expect, String price, String url1) {
         String url = String.format(baseUrl + "/firstProject/exchange/upload_exchange.do?name=%s&time=%s&address=%s&expect=%s&price=%s&imageurl=%s", name, time, place, expect, price, url1);
-
         Request request = new Request.Builder().url(url).header("Cookie", cookie).build();
 
         try {

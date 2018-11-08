@@ -19,8 +19,16 @@ import static com.ep.eventparticipant.MyApplication.getContext;
 import static com.ep.eventparticipant.activity.MainActivity.resourceIdToUri;
 
 public class exchangeout extends AppCompatActivity {
-    public List<ExchangeOut> exchangeOuts = new ArrayList<>();
+    public static List<ExchangeOut> exchangeOuts = new ArrayList<>();
     private Button return_;
+
+    static {
+     /*   for (int i =0 ;i<2;i++) {
+            ExchangeOut exchangeOut1 = new ExchangeOut("索尼vaio笔记本电脑", R.drawable.computer + "");
+            exchangeOuts.add(exchangeOut1);
+        }*/
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +49,6 @@ public class exchangeout extends AppCompatActivity {
     }
     private void inits(){
         //第一个参数为id是随机数，到时候对应也是随机数对应
-        for (int i =0 ;i<5;i++) {
-            ExchangeOut exchangeOut1 = new ExchangeOut("索尼vaio笔记本电脑", R.drawable.computer);
-            exchangeOuts.add(exchangeOut1);
-        }
+
     }
 }

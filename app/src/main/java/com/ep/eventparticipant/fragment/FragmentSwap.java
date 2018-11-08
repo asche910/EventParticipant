@@ -96,7 +96,6 @@ public class FragmentSwap extends Fragment {
             public void run() {
                 code = AsHttpUtils.ExchangeList();
                 Log.d("Tag", String.valueOf(code));
-
             }
         }).start();
 
